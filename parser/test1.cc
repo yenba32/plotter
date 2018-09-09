@@ -17,7 +17,7 @@ class Instruction {
 
 int main() {
 	string line;
-	string filepath = "/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/mDraw/gcode01.txt";
+	string filepath = "gcode01.txt";
 	
 	ifstream myfile(filepath);
 	
