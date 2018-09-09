@@ -9,6 +9,8 @@
 
 using namespace std;
 
+#define RUN_TEST(func) do { std::cout << #func; func(); std::cout << "\tOK" << endl; } while(false);
+
 void testParseG1() {
 	Instruction i = Instruction::parse("G1 X-12.00 Y12.00 A0");
 	assert(i.type == InstructionType::MOVE);
@@ -91,13 +93,14 @@ void testParseWholeFile() {
 	assertParseWholeFile("gcode02.txt");
 }
 
+
 int main() {
-	testParseG1();
-	testParseG28();
-	testParseM1();
-	testParseM10();
-	testParseM4();
-	testParseWholeFile();
+	RUN_TEST(testParseG1);
+	RUN_TEST(testParseG28);
+	RUN_TEST(testParseM1);
+	RUN_TEST(testParseM10);
+	RUN_TEST(testParseM4);
+	RUN_TEST(testParseWholeFile);
 
 	return 0;
 }
