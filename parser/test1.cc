@@ -1,57 +1,103 @@
 #include <iostream>
 #include <fstream>
-#include <string>
+#include <sstream>
+#include <cassert>
 #include <stdlib.h>
+#include <iomanip>
+
+#include "instruction.h"
 
 using namespace std;
 
-class Instruction {
-	public:
-		Instruction(const string inputstr);
-		void print() const;
-	private:
-		string action_name;
-		float xCoord;
-		float yCoord;
-};
+void testParseG1() {
+	Instruction i = Instruction::parse("G1 X-12.00 Y12.00 A0");
+	assert(i.type == InstructionType::MOVE);
+	assert(i.param1 == -1200);
+	assert(i.param2 == 1200);
+}
+
+void testParseG28() {
+	Instruction i = Instruction::parse("G28");
+
+	assert(i.type == InstructionType::MOVE_TO_ORIGIN);
+}
+
+void testParseM10() {
+	Instruction i = Instruction::parse("M10");
+	assert(i.type == InstructionType::REPORT_STATUS);
+}
+
+void testParseM1() {
+	Instruction i = Instruction::parse("M1 160");
+	assert(i.type == InstructionType::SET_PEN);
+	assert(i.param1 == 160);
+}
+
+void testParseM4() {
+	// TODO: what if param1 > 255 or param1 < 0?
+	Instruction i = Instruction::parse("M4 255");
+	assert(i.type == InstructionType::SET_LASER);
+	assert(i.param1 == 255);
+}
+
+void assertParseWholeFile(string filepath) {
+	// parse the whole file into memory structs then convert that list into
+	// string again then compare with the original string
+
+	string line;
+
+	ifstream myfile(filepath);
+	std::stringstream buffer;
+
+	// look for newline rather than using getline
+	while(getline(myfile, line)) {
+		Instruction newInstr = Instruction::parse(line);
+		buffer << setprecision(2) << fixed;
+
+		switch (newInstr.type) {
+			case InstructionType::MOVE:
+			buffer << "G1 " << "X" << newInstr.param1 / 100.0 << " " << "Y" << newInstr.param2 / 100.0 << " A0";
+			break;
+
+			case InstructionType::MOVE_TO_ORIGIN:
+			buffer << "G28";
+			break;
+
+			case InstructionType::REPORT_STATUS:
+			buffer << "M10";
+			break;
+
+			case InstructionType::SET_LASER:
+			buffer << "M4 " << newInstr.param1;
+			break;
+
+			case InstructionType::SET_PEN:
+			buffer << "M1 " << newInstr.param1;
+			break;
+		}
+
+		buffer << '\r';
+
+		assert(line.compare(buffer.str()) == 0);
+
+		line.erase(); // Necessary?
+		buffer.str("");
+		buffer.clear();
+	}
+}
+
+void testParseWholeFile() {
+	assertParseWholeFile("gcode01.txt");
+	assertParseWholeFile("gcode02.txt");
+}
 
 int main() {
-	string line;
-	string filepath = "gcode01.txt";
-	
-	ifstream myfile(filepath);
-	
-	// look for newline rather than using getline		
-	while(getline (myfile, line)) {
-		if (strncmp(&line[0], "M1", 1) == 0) {
-			cout << "Move up/down" << endl;
-		} else if (strncmp(&line[0], "G1", 2) == 0) {
-			cout << "Go somewhere" << endl;
-			Instruction newInstr(line);
-			newInstr.print();
-		} else {
-			cout << "Other" << endl;
-		}
-		//cout << line << endl;
-		line.erase(); // Necessary?
-	}
+	testParseG1();
+	testParseG28();
+	testParseM1();
+	testParseM10();
+	testParseM4();
+	testParseWholeFile();
 
-	
 	return 0;
-}
-
-Instruction::Instruction(const string inputstr) {
-	size_t xpos = inputstr.find("X") + 1;
-	size_t ypos = inputstr.find("Y") + 1;
-	char* end_ptr;
-	
-	string xstr = inputstr.substr(xpos);
-	string ystr = inputstr.substr(ypos);
-	
-	xCoord = strtof(xstr.c_str(), &end_ptr);
-	yCoord = strtof(ystr.c_str(), &end_ptr);
-}
-
-void Instruction::print() const {
-	cout << "X: " << xCoord << endl << "Y: " << yCoord << endl;
 }
