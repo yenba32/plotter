@@ -51,7 +51,6 @@ void assertParseWholeFile(string filepath) {
 	ifstream myfile(filepath);
 	std::stringstream buffer;
 
-	// look for newline rather than using getline
 	while(getline(myfile, line)) {
 		Instruction newInstr = Instruction::parse(line);
 		buffer << setprecision(2) << fixed;
@@ -82,7 +81,7 @@ void assertParseWholeFile(string filepath) {
 
 		assert(line.compare(buffer.str()) == 0);
 
-		line.erase(); // Necessary?
+		line.erase();
 		buffer.str("");
 		buffer.clear();
 	}
