@@ -1,7 +1,16 @@
-# plotter
+# XY-Plotter Project
 
+Trung Ngo and Sam Abney
 
-## G Code documentation
+## G-Code Parser
+
+### Parser Assignment
+
+Our G-Code parser implementation defines an Instruction class where each parsed instruction is assigned one of five types. If the instruction includes further integer parameters, such as coordinates, these are stored as data members param1 and param2.
+
+The included makefile allows the unit test to be run with the command `make test`. The test parses sample commands of each type and checks that their assigned types and parameters, if any, match what is expected. The test then parses all commands in both sample G-code files, reconstructs them from the created Instruction objects into lines in a buffer, then checks that this buffer matches the original input file.
+
+### G-Code Documentation
 
 - `G1 X<decimal> Y<decimal> A<int>`: Move the cursor to position `X`, `Y`. The `A` param can be ignored. The numbers are specified only up to 2 digits after decimal point. It might be better to represent them as integer.
 - `G28`: Move to origin
