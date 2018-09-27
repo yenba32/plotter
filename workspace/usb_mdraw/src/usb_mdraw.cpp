@@ -203,6 +203,7 @@ static void motor_task(void *pvParameters) {
 				if (rcvdist.x < 0) {
 					xdirpin->write(1);
 					xdir_cw = false;
+					rcvdist.x = rcvdist.x * -1;
 				} else {
 					xdirpin->write(0);
 					xdir_cw = true;
@@ -215,6 +216,7 @@ static void motor_task(void *pvParameters) {
 				if (rcvdist.y < 0) {
 					ydirpin->write(1);
 					ydir_cw = false;
+					rcvdist.y = rcvdist.y * -1;
 				} else {
 					ydirpin->write(0);
 					ydir_cw = true;
@@ -232,6 +234,8 @@ static void motor_task(void *pvParameters) {
 //		xdirpin->write(xdir_cw);
 //		xdir_cw = !xdir_cw;
 //		RIT_start(4000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+
+		vTaskDelay((TickType_t) 10); // 10ms delay
 	}
 }
 
@@ -295,6 +299,8 @@ static void USB_task(void *pvParameters) {
 
 		Board_LED_Set(1, LedState);
 		LedState = (bool) !LedState;
+
+		vTaskDelay((TickType_t) 10); // 10ms delay
 	}
 }
 
@@ -387,6 +393,7 @@ int main(void) {
 	prvSetupHardware();
 
 	coordQueue = xQueueCreate(10, sizeof(coord));
+	vQueueAddToRegistry(coordQueue, "coordQueue");
 
 	lim1pin = new DigitalIoPin (1, 3, true, true, true); // Limit switch 1
 	lim2pin = new DigitalIoPin (0, 0, true, true, true); // Limit switch 2
