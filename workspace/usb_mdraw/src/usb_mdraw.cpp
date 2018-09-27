@@ -29,6 +29,11 @@
 #include "instruction.h"
 #include "DigitalIoPin.h"
 
+struct coord{
+	int x;
+	int y;
+};
+
 DigitalIoPin *xmax;
 DigitalIoPin *xmin;
 DigitalIoPin *ymax;
@@ -53,7 +58,9 @@ bool motorcalibrating = true; // Used when limit switches' identity unknown
 
 volatile uint32_t RIT_count;
 xSemaphoreHandle sbRIT;
+QueueHandle_t coordQueue;
 
+coord getDistance(coord from, Instruction to);
 void RIT_start(int count, int us);
 
 // TODO: insert other definitions and declarations here
@@ -82,20 +89,23 @@ static void prvSetupHardware(void)
 
 }
 
-inline void limAssign(DigitalIoPin *ptr) {
-	// Assigns name of ptr to whichever limit switch is closed
-		if (lim1pin->read()) {
-			ptr = lim1pin;
-		} else if (lim2pin->read()) {
-			ptr = lim2pin;
-		} else if (lim3pin->read()) {
-			ptr = lim3pin;
-		} else if (lim4pin->read()) {
-			ptr = lim4pin;
-		}
-}
+//inline void limAssign(DigitalIoPin *ptr) {
+//	// Assigns name of ptr to whichever limit switch is closed
+//		if (lim1pin->read()) {
+//			ptr = lim1pin;
+//		} else if (lim2pin->read()) {
+//			ptr = lim2pin;
+//		} else if (lim3pin->read()) {
+//			ptr = lim3pin;
+//		} else if (lim4pin->read()) {
+//			ptr = lim4pin;
+//		}
+//}
 
 static void motor_task(void *pvParameters) {
+	int totalsteps = 500; // HARDCODED VALUE TO BE REPLACED WITH ACTUAL COUNTED STEPS.
+	coord rcvdist; // Received distance from MDraw instruction
+
 	int pps = 1000;
 	bool startmode = true;
 	bool countingmode = false;
@@ -177,25 +187,65 @@ static void motor_task(void *pvParameters) {
 	while (countingmode) {
 		//count steps
 		countingmode = false;
+		motorcalibrating = false; // Switch limit-switch-reading mode in interrupt handler
 		drawingmode = true;
 	}
 	while (drawingmode) {
-		motorcalibrating = false;
-		runxaxis = false;
-		ydirpin->write(ydir_cw);
-		ydir_cw = !ydir_cw;
-		RIT_start(4000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
-		runxaxis = true;
-		xdirpin->write(xdir_cw);
-		xdir_cw = !xdir_cw;
-		RIT_start(4000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+
+		if (xQueueReceive(coordQueue, &rcvdist, portMAX_DELAY) == pdPASS) {
+			// convert distance to steps (based on y axis 380 mm, x axis 310 mm)
+			rcvdist.x = (rcvdist.x * totalsteps) / 50000; // 38000
+			rcvdist.y = (rcvdist.y * totalsteps) / 50000; // 31000
+
+			// Run motors calculated number of steps
+			if (rcvdist.x != 0) {
+				runxaxis = true;
+				if (rcvdist.x < 0) {
+					xdirpin->write(1);
+					xdir_cw = false;
+				} else {
+					xdirpin->write(0);
+					xdir_cw = true;
+				}
+				printf("\rMoving distance x %d\n", rcvdist.x);
+				RIT_start(rcvdist.x * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+			}
+			if (rcvdist.y != 0) {
+				runxaxis = false;
+				if (rcvdist.y < 0) {
+					ydirpin->write(1);
+					ydir_cw = false;
+				} else {
+					ydirpin->write(0);
+					ydir_cw = true;
+				}
+				printf("\rMoving distance y %d\n", rcvdist.y);
+				RIT_start(rcvdist.y * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+			}
+		}
+
+//		runxaxis = false;
+//		ydirpin->write(ydir_cw);
+//		ydir_cw = !ydir_cw;
+//		RIT_start(4000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+//		runxaxis = true;
+//		xdirpin->write(xdir_cw);
+//		xdir_cw = !xdir_cw;
+//		RIT_start(4000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
 	}
 }
 
 
 static void USB_task(void *pvParameters) {
+	coord prev;
+	coord distance;
+
+	prev.x = 0;
+	prev.y = 0;
+
 	bool LedState = false;
-	const char statusstr[] = "M10 XY 380 310 0.00 0.00 A0 B0 H0 S80 U160 D90\n";
+	//const char statusstr[] = "M10 XY 380 310 0.00 0.00 A0 B0 H0 S80 U160 D90\n";
+	const char statusstr[] = "M10 XY 500 500 0.00 0.00 A0 B0 H0 S80 U160 D90\n";
 	const char okstr[] = "OK\n";
 
 	while (1) {
@@ -205,33 +255,43 @@ static void USB_task(void *pvParameters) {
 
 		Instruction i = Instruction::parse(str);
 
-		if (i.type == InstructionType::MOVE) {
-			printf("\rMove\n");
-		} else if (i.type == InstructionType::MOVE_TO_ORIGIN) {
-			printf("\rMove to origin\n");
-		} else if (i.type == InstructionType::REPORT_STATUS) {
-			printf("\rReport status\n");
-		} else if (i.type == InstructionType::SET_PEN) {
-			printf("\rSet pen\n");
-		} else if (i.type == InstructionType::SET_LASER) {
-			printf("\rSet laser\n");
+		printf("\r%s\n", str);
+//		if (i.type == InstructionType::MOVE) {
+//			printf("\rMove\n");
+//		} else if (i.type == InstructionType::MOVE_TO_ORIGIN) {
+//			printf("\rMove to origin\n");
+//		} else if (i.type == InstructionType::REPORT_STATUS) {
+//			printf("\rReport status\n");
+//		} else if (i.type == InstructionType::SET_PEN) {
+//			printf("\rSet pen\n");
+//		} else if (i.type == InstructionType::SET_LASER) {
+//			printf("\rSet laser\n");
+//		}
+//		printf("\r%d %d\n", i.param1, i.param2);
+
+
+		// Calculate distance from previous coordinate if movement is required
+		if (i.type == InstructionType::MOVE || i.type == InstructionType::MOVE_TO_ORIGIN) {
+			distance = getDistance(prev, i);
+			// send to queue
+			xQueueSendToBack(coordQueue, (void*) &distance , portMAX_DELAY);
 		}
-		printf("\r%d %d\n", i.param1, i.param2);
 
-//		printf("\r%s\n", str);
-
+		// Reply to MDraw
 		if (i.type == InstructionType::REPORT_STATUS) {
 			USB_send( (uint8_t *) statusstr, 47);
 		} else {
 			USB_send( (uint8_t *) okstr, 3);
 		}
 
-//		// Include string.h for this
-//		if (strncmp(str, "M10", 3) == 0) {
-//			USB_send( (uint8_t *) statusstr, 47);
-//		} else {
-//			USB_send( (uint8_t *) okstr, 3);
-//		}
+		// Set new previous coordinate for next iteration
+		if (i.type == InstructionType::MOVE) {
+			prev.x = i.param1;
+			prev.y = i.param2;
+		} else if (i.type == InstructionType::MOVE_TO_ORIGIN) {
+			prev.x = 0;
+			prev.y = 0;
+		}
 
 		Board_LED_Set(1, LedState);
 		LedState = (bool) !LedState;
@@ -315,9 +375,18 @@ void RIT_start(int count, int us) {
 	}
 }
 
+coord getDistance(coord from, Instruction to) {
+	coord result;
+	result.x = to.param1 - from.x;
+	result.y = to.param2 - from.y;
+	return result;
+}
+
 int main(void) {
 
 	prvSetupHardware();
+
+	coordQueue = xQueueCreate(10, sizeof(coord));
 
 	lim1pin = new DigitalIoPin (1, 3, true, true, true); // Limit switch 1
 	lim2pin = new DigitalIoPin (0, 0, true, true, true); // Limit switch 2
@@ -344,11 +413,9 @@ int main(void) {
 
 	sbRIT = xSemaphoreCreateBinary();
 
-//	xTaskCreate(motor_task, "Motor",
-//				configMINIMAL_STACK_SIZE + 128, NULL, (tskIDLE_PRIORITY + 1UL),
-//				(TaskHandle_t *) NULL);
-
-	// IMPLEMENT EVENT BITS TO SYNC USB SENDING "OK" WITH MOTOR TASK
+	xTaskCreate(motor_task, "Motor",
+				configMINIMAL_STACK_SIZE + 128, NULL, (tskIDLE_PRIORITY + 1UL),
+				(TaskHandle_t *) NULL);
 
 	xTaskCreate(USB_task, "USB",
 			configMINIMAL_STACK_SIZE + 256, NULL, (tskIDLE_PRIORITY + 1UL),
