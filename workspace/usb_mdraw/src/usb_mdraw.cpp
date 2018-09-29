@@ -60,7 +60,7 @@ volatile uint32_t RIT_count;
 xSemaphoreHandle sbRIT;
 QueueHandle_t coordQueue;
 
-coord getDistance(coord from, Instruction to);
+coord getDistance(coord from, coord to);
 void RIT_start(int count, int us);
 
 // TODO: insert other definitions and declarations here
@@ -104,8 +104,12 @@ static void prvSetupHardware(void)
 
 static void motor_task(void *pvParameters) {
 	int totalsteps = 500; // HARDCODED VALUE TO BE REPLACED WITH ACTUAL COUNTED STEPS.
-	coord rcvdist; // Received distance from MDraw instruction
-
+	coord rcv; // Received coordinates from MDraw instruction
+	coord prev; // Previous coordinates received
+	coord dist; // Distance from prev to rcv
+	coord mid; // Changing midpoints used by algorithm
+	coord drawdist; // Small distance to draw during each iteration of algorithm
+	int d = 0; // Used by algorithm
 	int pps = 1000;
 	bool startmode = true;
 	bool countingmode = false;
@@ -192,48 +196,66 @@ static void motor_task(void *pvParameters) {
 	}
 	while (drawingmode) {
 
-		if (xQueueReceive(coordQueue, &rcvdist, portMAX_DELAY) == pdPASS) {
-			// convert distance to steps (based on y axis 380 mm, x axis 310 mm)
-			rcvdist.x = (rcvdist.x * totalsteps) / 50000; // 38000
-			rcvdist.y = (rcvdist.y * totalsteps) / 50000; // 31000
+		if (xQueueReceive(coordQueue, &rcv, portMAX_DELAY) == pdPASS) {
+			// Calculate distance
+			dist = getDistance(prev, rcv);
 
-			// Run motors calculated number of steps
-			if (rcvdist.x != 0) {
-				runxaxis = true;
-				if (rcvdist.x < 0) {
-					xdirpin->write(1);
-					xdir_cw = false;
-					rcvdist.x = rcvdist.x * -1;
-				} else {
-					xdirpin->write(0);
-					xdir_cw = true;
-				}
-				printf("\rMoving distance x %d\n", rcvdist.x);
-				RIT_start(rcvdist.x * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+			// Convert distance to steps
+			dist.x = (dist.x * totalsteps) / 50000; // 38000
+			dist.y = (dist.y * totalsteps) / 50000; // 31000
+
+			// Set direction for each motor based on sign of distance.
+			// Then, if negative, multiply by -1 (get absolute value).
+			if (dist.x < 0) {
+				xdirpin->write(1);
+				xdir_cw = false;
+				dist.x = dist.x * -1;
+			} else {
+				xdirpin->write(0);
+				xdir_cw = true;
 			}
-			if (rcvdist.y != 0) {
-				runxaxis = false;
-				if (rcvdist.y < 0) {
-					ydirpin->write(1);
-					ydir_cw = false;
-					rcvdist.y = rcvdist.y * -1;
-				} else {
-					ydirpin->write(0);
-					ydir_cw = true;
-				}
-				printf("\rMoving distance y %d\n", rcvdist.y);
-				RIT_start(rcvdist.y * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+
+			if (dist.y < 0) {
+				ydirpin->write(1);
+				ydir_cw = false;
+				dist.y = dist.y * -1;
+			} else {
+				ydirpin->write(0);
+				ydir_cw = true;
 			}
+
+			// Drive with Bresenham's algorithm
+
+			    d = (2 * dist.y) - dist.x;
+			    mid.x = prev.x;
+			    mid.y = prev.y;
+
+			    while (mid.x <= rcv.x) {
+			    	//  Draw the distance to mid from prev
+			    	drawdist = getDistance(prev, mid);
+			    	if (drawdist.x > 0) {
+			    		runxaxis = true;
+			    		RIT_start(drawdist.x * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+			    	}
+			    	if (drawdist.y > 0) {
+			    		runxaxis = false;
+			    		RIT_start(drawdist.y * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+			    	}
+
+			    	// Old mid becomes new prev
+			    	prev.x = mid.x;
+			    	prev.y = mid.y;
+
+			    	// Get next mid
+			    	mid.x++;
+			    	if ( d < 0 ) {
+			    		d += dist.y + dist.y;
+			    	} else {
+			    		d += 2 * (dist.y - dist.x);
+			    		mid.y++;
+			    	}
+			    }
 		}
-
-//		runxaxis = false;
-//		ydirpin->write(ydir_cw);
-//		ydir_cw = !ydir_cw;
-//		RIT_start(4000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
-//		runxaxis = true;
-//		xdirpin->write(xdir_cw);
-//		xdir_cw = !xdir_cw;
-//		RIT_start(4000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
 
 		vTaskDelay((TickType_t) 10); // 10ms delay
 	}
@@ -241,11 +263,11 @@ static void motor_task(void *pvParameters) {
 
 
 static void USB_task(void *pvParameters) {
-	coord prev;
-	coord distance;
+//	coord prev;
+	coord next;
 
-	prev.x = 0;
-	prev.y = 0;
+//	prev.x = 0;
+//	prev.y = 0;
 
 	bool LedState = false;
 	//const char statusstr[] = "M10 XY 380 310 0.00 0.00 A0 B0 H0 S80 U160 D90\n";
@@ -259,26 +281,18 @@ static void USB_task(void *pvParameters) {
 
 		Instruction i = Instruction::parse(str);
 
+		// DEBUG PRINT
 		printf("\r%s\n", str);
-//		if (i.type == InstructionType::MOVE) {
-//			printf("\rMove\n");
-//		} else if (i.type == InstructionType::MOVE_TO_ORIGIN) {
-//			printf("\rMove to origin\n");
-//		} else if (i.type == InstructionType::REPORT_STATUS) {
-//			printf("\rReport status\n");
-//		} else if (i.type == InstructionType::SET_PEN) {
-//			printf("\rSet pen\n");
-//		} else if (i.type == InstructionType::SET_LASER) {
-//			printf("\rSet laser\n");
-//		}
-//		printf("\r%d %d\n", i.param1, i.param2);
 
-
-		// Calculate distance from previous coordinate if movement is required
-		if (i.type == InstructionType::MOVE || i.type == InstructionType::MOVE_TO_ORIGIN) {
-			distance = getDistance(prev, i);
-			// send to queue
-			xQueueSendToBack(coordQueue, (void*) &distance , portMAX_DELAY);
+		// If instruction is a move, send the coordinates to the queue.
+		if (i.type == InstructionType::MOVE) {
+			next.x = i.param1;
+			next.y = i.param2;
+			xQueueSendToBack(coordQueue, (void*) &next , portMAX_DELAY);
+		} else if (i.type ==  InstructionType::MOVE_TO_ORIGIN) {
+			next.x = 0;
+			next.y = 0;
+			xQueueSendToBack(coordQueue, (void*) &next , portMAX_DELAY);
 		}
 
 		// Reply to MDraw
@@ -287,15 +301,15 @@ static void USB_task(void *pvParameters) {
 		} else {
 			USB_send( (uint8_t *) okstr, 3);
 		}
-
-		// Set new previous coordinate for next iteration
-		if (i.type == InstructionType::MOVE) {
-			prev.x = i.param1;
-			prev.y = i.param2;
-		} else if (i.type == InstructionType::MOVE_TO_ORIGIN) {
-			prev.x = 0;
-			prev.y = 0;
-		}
+//
+//		// Set new previous coordinates for next iteration
+//		if (i.type == InstructionType::MOVE) {
+//			prev.x = i.param1;
+//			prev.y = i.param2;
+//		} else if (i.type == InstructionType::MOVE_TO_ORIGIN) {
+//			prev.x = 0;
+//			prev.y = 0;
+//		}
 
 		Board_LED_Set(1, LedState);
 		LedState = (bool) !LedState;
@@ -381,10 +395,10 @@ void RIT_start(int count, int us) {
 	}
 }
 
-coord getDistance(coord from, Instruction to) {
+coord getDistance(coord from, coord to) {
 	coord result;
-	result.x = to.param1 - from.x;
-	result.y = to.param2 - from.y;
+	result.x = to.x - from.x;
+	result.y = to.y - from.y;
 	return result;
 }
 
