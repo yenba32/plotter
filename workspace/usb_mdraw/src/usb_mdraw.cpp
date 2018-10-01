@@ -103,9 +103,17 @@ static void prvSetupHardware(void)
 //}
 
 static void motor_task(void *pvParameters) {
+	int counter, temp, step, start, end;
+	bool interchange;
+	int signx;
+	int signy;
+	int xlength_mm = 500;
+	int ylength_mm = 500;
 	int totalsteps = 500; // HARDCODED VALUE TO BE REPLACED WITH ACTUAL COUNTED STEPS.
 	coord rcv; // Received coordinates from MDraw instruction
 	coord prev; // Previous coordinates received
+	prev.x = 0;
+	prev.y = 0;
 	coord dist; // Distance from prev to rcv
 	coord mid; // Changing midpoints used by algorithm
 	coord drawdist; // Small distance to draw during each iteration of algorithm
@@ -197,40 +205,69 @@ static void motor_task(void *pvParameters) {
 	while (drawingmode) {
 
 		if (xQueueReceive(coordQueue, &rcv, portMAX_DELAY) == pdPASS) {
+			// Convert coordinates from mm to steps
+			rcv.x = rcv.x * totalsteps / xlength_mm;
+			rcv.y = rcv.y * totalsteps / ylength_mm;
+
+			// Scale back down and round
+			rcv.x = (rcv.x + 50) / 100;
+			rcv.y = (rcv.y + 50) / 100;
+
 			// Calculate distance
 			dist = getDistance(prev, rcv);
-
-			// Convert distance to steps
-			dist.x = (dist.x * totalsteps) / 50000; // 38000
-			dist.y = (dist.y * totalsteps) / 50000; // 31000
 
 			// Set direction for each motor based on sign of distance.
 			// Then, if negative, multiply by -1 (get absolute value).
 			if (dist.x < 0) {
+				signx = -1;
 				xdirpin->write(1);
 				xdir_cw = false;
 				dist.x = dist.x * -1;
 			} else {
+				signx = 1;
 				xdirpin->write(0);
 				xdir_cw = true;
 			}
 
 			if (dist.y < 0) {
+				signy = -1;
 				ydirpin->write(1);
 				ydir_cw = false;
 				dist.y = dist.y * -1;
 			} else {
+				signy = 1;
 				ydirpin->write(0);
 				ydir_cw = true;
 			}
 
 			// Drive with Bresenham's algorithm
+				if (dist.y > dist.x) {
+					temp = dist.x;
+					dist.x = dist.y;
+					dist.y = temp;
+					interchange = true;
+				} else {
+					interchange = false;
+				}
 
 			    d = (2 * dist.y) - dist.x;
 			    mid.x = prev.x;
 			    mid.y = prev.y;
 
-			    while (mid.x <= rcv.x) {
+			    if (interchange) {
+			    	start = prev.y;
+			    	end = rcv.y + signy;
+			    	step = signy;
+			    } else {
+			    	start = prev.x;
+			    	end = rcv.x + signx;
+			    	step = signx;
+			    }
+
+			    for (counter = start; counter != end; counter += step) {
+			    	// vTaskDelay((TickType_t) 10); // 10ms delay
+			    	printf("\rmidpoint: %d, %d\n", mid.x, mid.y);
+
 			    	//  Draw the distance to mid from prev
 			    	drawdist = getDistance(prev, mid);
 			    	if (drawdist.x > 0) {
@@ -247,12 +284,21 @@ static void motor_task(void *pvParameters) {
 			    	prev.y = mid.y;
 
 			    	// Get next mid
-			    	mid.x++;
+			    	if (interchange) {
+			    		mid.y += signy;
+			    	} else {
+			    		mid.x += signx;
+			    	}
+
 			    	if ( d < 0 ) {
 			    		d += dist.y + dist.y;
 			    	} else {
 			    		d += 2 * (dist.y - dist.x);
-			    		mid.y++;
+			    		if (interchange) {
+			    			mid.x += signy;
+			    		} else {
+			    			mid.y += signx;
+			    		}
 			    	}
 			    }
 		}
