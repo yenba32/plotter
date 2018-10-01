@@ -270,6 +270,9 @@ static void motor_task(void *pvParameters) {
 
 			    	//  Draw the distance to mid from prev
 			    	drawdist = getDistance(prev, mid);
+			    	drawdist.x = abs(drawdist.x);
+			    	drawdist.y = abs(drawdist.y);
+
 			    	if (drawdist.x > 0) {
 			    		runxaxis = true;
 			    		RIT_start(drawdist.x * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
@@ -295,9 +298,9 @@ static void motor_task(void *pvParameters) {
 			    	} else {
 			    		d += 2 * (dist.y - dist.x);
 			    		if (interchange) {
-			    			mid.x += signy;
+			    			mid.x += signx;
 			    		} else {
-			    			mid.y += signx;
+			    			mid.y += signy;
 			    		}
 			    	}
 			    }
