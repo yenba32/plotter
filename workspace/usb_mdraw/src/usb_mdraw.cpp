@@ -49,6 +49,7 @@ DigitalIoPin *ydirpin;
 DigitalIoPin *xsteppin;
 DigitalIoPin *ysteppin;
 DigitalIoPin *penPin;
+DigitalIoPin *laserpin;
 
 bool xstepbool = true;
 bool ystepbool = true;
@@ -478,6 +479,9 @@ int main(void) {
 
 	prvSetupHardware();
 
+	laserpin = new DigitalIoPin (0, 12, false, false, false);
+	laserpin->write(0); // Turn laser off (write low) immediately.
+
 	coordQueue = xQueueCreate(10, sizeof(coord));
 	vQueueAddToRegistry(coordQueue, "coordQueue");
 
@@ -508,21 +512,23 @@ int main(void) {
 
 	sbRIT = xSemaphoreCreateBinary();
 
-	xTaskCreate(motor_task, "Motor",
-				configMINIMAL_STACK_SIZE + 128, NULL, (tskIDLE_PRIORITY + 1UL),
+	if (laserpin->read() == 0) { // Extra check to verify laser is off before tasks start
+		xTaskCreate(motor_task, "Motor",
+					configMINIMAL_STACK_SIZE + 256, NULL, (tskIDLE_PRIORITY + 1UL),
+					(TaskHandle_t *) NULL);
+
+		xTaskCreate(USB_task, "USB",
+				configMINIMAL_STACK_SIZE + 256, NULL, (tskIDLE_PRIORITY + 1UL),
 				(TaskHandle_t *) NULL);
 
-	xTaskCreate(USB_task, "USB",
-			configMINIMAL_STACK_SIZE + 256, NULL, (tskIDLE_PRIORITY + 1UL),
-			(TaskHandle_t *) NULL);
-
-	xTaskCreate(cdc_task, "CDC",
-			configMINIMAL_STACK_SIZE + 128, NULL, (tskIDLE_PRIORITY + 2UL), // Needs to be higher priority to empty receive queue
-			(TaskHandle_t *) NULL);
+		xTaskCreate(cdc_task, "CDC",
+				configMINIMAL_STACK_SIZE + 128, NULL, (tskIDLE_PRIORITY + 2UL), // Needs to be higher priority to empty receive queue
+				(TaskHandle_t *) NULL);
 
 
-	/* Start the scheduler */
-	vTaskStartScheduler();
+		/* Start the scheduler */
+		vTaskStartScheduler();
+	}
 
 	/* Should never arrive here */
 	return 1;
