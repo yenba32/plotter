@@ -29,6 +29,8 @@
 #include "instruction.h"
 #include "DigitalIoPin.h"
 
+#define PEN_PWM_INDEX 1
+
 struct coord{
 	int x;
 	int y;
@@ -46,6 +48,7 @@ DigitalIoPin *xdirpin;
 DigitalIoPin *ydirpin;
 DigitalIoPin *xsteppin;
 DigitalIoPin *ysteppin;
+DigitalIoPin *penPin;
 
 bool xstepbool = true;
 bool ystepbool = true;
@@ -77,12 +80,20 @@ void vConfigureTimerForRunTimeStats( void ) {
 }
 /* end runtime statistics collection */
 
+void SCT_Init(void) {
+	Chip_SCTPWM_Init(LPC_SCT0);
+	Chip_SCTPWM_SetRate(LPC_SCT0, 50);
+	Chip_SCTPWM_SetOutPin(LPC_SCT0, PEN_PWM_INDEX, 1);
+	Chip_SWM_MovablePortPinAssign(SWM_SCT0_OUT1_O, 0, 10);
+	Chip_SCTPWM_Start(LPC_SCT0);
+}
 
 /* Sets up system hardware */
 static void prvSetupHardware(void)
 {
 	SystemCoreClockUpdate();
 	Board_Init();
+	SCT_Init();
 
 	/* Initial LED0 state is off */
 	Board_LED_Set(0, false);
@@ -101,6 +112,13 @@ static void prvSetupHardware(void)
 //			ptr = lim4pin;
 //		}
 //}
+
+
+void setPen(uint8_t pos) {
+	// pos => dutyCycle: pos / 256 * 2ms/20ms * ticks_per_cycle
+	uint32_t dutyCycle = pos * Chip_SCTPWM_GetTicksPerCycle(LPC_SCT0) / (10 * 256);
+	Chip_SCTPWM_SetDutyCycle(LPC_SCT0, PEN_PWM_INDEX, dutyCycle);
+}
 
 static void motor_task(void *pvParameters) {
 	int counter, temp, step, start, end;
@@ -344,12 +362,17 @@ static void USB_task(void *pvParameters) {
 			xQueueSendToBack(coordQueue, (void*) &next , portMAX_DELAY);
 		}
 
+		if (i.type == InstructionType::SET_PEN) {
+			setPen(i.param1);
+		}
+
 		// Reply to MDraw
 		if (i.type == InstructionType::REPORT_STATUS) {
 			USB_send( (uint8_t *) statusstr, 47);
 		} else {
 			USB_send( (uint8_t *) okstr, 3);
 		}
+
 //
 //		// Set new previous coordinates for next iteration
 //		if (i.type == InstructionType::MOVE) {
@@ -472,6 +495,8 @@ int main(void) {
 
 	ydirpin = new DigitalIoPin (1, 0, false, false, false); // CCW 1, CW 0
 	ysteppin = new DigitalIoPin (0, 24, false, false, false); // Step pin
+
+	penPin = new DigitalIoPin(0, 10, false, false, false);
 
 	// initialize RIT (= enable clocking etc.)
 	Chip_RIT_Init(LPC_RITIMER);
