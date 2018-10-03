@@ -116,9 +116,10 @@ static void prvSetupHardware(void)
 
 
 void setPen(uint8_t pos) {
-	// pos => dutyCycle: pos / 256 * 2ms/20ms * ticks_per_cycle
-	uint32_t dutyCycle = pos * Chip_SCTPWM_GetTicksPerCycle(LPC_SCT0) / (10 * 256);
+	uint32_t onems = Chip_SCTPWM_GetTicksPerCycle(LPC_SCT0) / 20;
+	uint32_t dutyCycle = (pos * onems / 255) + onems;
 	Chip_SCTPWM_SetDutyCycle(LPC_SCT0, PEN_PWM_INDEX, dutyCycle);
+	vTaskDelay((TickType_t) 50); // 50ms delay
 }
 
 static void motor_task(void *pvParameters) {
