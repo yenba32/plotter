@@ -62,7 +62,7 @@ bool motorcalibrating = true; // Used when limit switches' identity unknown
 
 volatile uint32_t RIT_count;
 xSemaphoreHandle sbRIT;
-QueueHandle_t coordQueue;
+QueueHandle_t iQueue;
 
 coord getDistance(coord from, coord to);
 void RIT_start(int count, int us);
@@ -119,7 +119,28 @@ void setPen(uint8_t pos) {
 	uint32_t onems = Chip_SCTPWM_GetTicksPerCycle(LPC_SCT0) / 20;
 	uint32_t dutyCycle = (pos * onems / 255) + onems;
 	Chip_SCTPWM_SetDutyCycle(LPC_SCT0, PEN_PWM_INDEX, dutyCycle);
-	vTaskDelay((TickType_t) 50); // 50ms delay
+	//vTaskDelay((TickType_t) 50); // 50ms delay
+}
+
+coord processMove(Instruction i) {
+	coord rcv;
+
+	// If instruction is a move, get the coordinates
+	if (i.type == InstructionType::MOVE) {
+		rcv.x = i.param1;
+		rcv.y = i.param2;
+	} else if (i.type ==  InstructionType::MOVE_TO_ORIGIN) {
+		rcv.x = 0;
+		rcv.y = 0;
+	}
+
+	return rcv;
+}
+
+void processOther(Instruction i) {
+	if (i.type == InstructionType::SET_PEN) {
+		setPen(i.param1);
+	}
 }
 
 static void motor_task(void *pvParameters) {
@@ -130,6 +151,7 @@ static void motor_task(void *pvParameters) {
 	int xlength_mm = 500;
 	int ylength_mm = 500;
 	int totalsteps = 500; // HARDCODED VALUE TO BE REPLACED WITH ACTUAL COUNTED STEPS.
+	Instruction i_rcv; // Received MDraw instruction from the queue
 	coord rcv; // Received coordinates from MDraw instruction
 	coord prev; // Previous coordinates received
 	prev.x = 0;
@@ -224,43 +246,46 @@ static void motor_task(void *pvParameters) {
 	}
 	while (drawingmode) {
 
-		if (xQueueReceive(coordQueue, &rcv, portMAX_DELAY) == pdPASS) {
-			// Convert coordinates from mm to steps
-			rcv.x = rcv.x * totalsteps / xlength_mm;
-			rcv.y = rcv.y * totalsteps / ylength_mm;
+		if (xQueueReceive(iQueue, &i_rcv, portMAX_DELAY) == pdPASS) {
 
-			// Scale back down and round
-			rcv.x = (rcv.x + 50) / 100;
-			rcv.y = (rcv.y + 50) / 100;
+			if (i_rcv.type == InstructionType::MOVE || i_rcv.type == InstructionType::MOVE_TO_ORIGIN) {
+				rcv = processMove(i_rcv);
+				// Convert coordinates from mm to steps
+				rcv.x = rcv.x * totalsteps / xlength_mm;
+				rcv.y = rcv.y * totalsteps / ylength_mm;
 
-			// Calculate distance
-			dist = getDistance(prev, rcv);
+				// Scale back down and round
+				rcv.x = (rcv.x + 50) / 100;
+				rcv.y = (rcv.y + 50) / 100;
 
-			// Set direction for each motor based on sign of distance.
-			// Then, if negative, multiply by -1 (get absolute value).
-			if (dist.x < 0) {
-				signx = -1;
-				xdirpin->write(1);
-				xdir_cw = false;
-				dist.x = dist.x * -1;
-			} else {
-				signx = 1;
-				xdirpin->write(0);
-				xdir_cw = true;
-			}
+				// Calculate distance
+				dist = getDistance(prev, rcv);
 
-			if (dist.y < 0) {
-				signy = -1;
-				ydirpin->write(1);
-				ydir_cw = false;
-				dist.y = dist.y * -1;
-			} else {
-				signy = 1;
-				ydirpin->write(0);
-				ydir_cw = true;
-			}
+				// Set direction for each motor based on sign of distance.
+				// Then, if negative, multiply by -1 (get absolute value).
+				if (dist.x < 0) {
+					signx = -1;
+					xdirpin->write(1);
+					xdir_cw = false;
+					dist.x = dist.x * -1;
+				} else {
+					signx = 1;
+					xdirpin->write(0);
+					xdir_cw = true;
+				}
 
-			// Drive with Bresenham's algorithm
+				if (dist.y < 0) {
+					signy = -1;
+					ydirpin->write(1);
+					ydir_cw = false;
+					dist.y = dist.y * -1;
+				} else {
+					signy = 1;
+					ydirpin->write(0);
+					ydir_cw = true;
+				}
+
+				// Drive with Bresenham's algorithm
 				if (dist.y > dist.x) {
 					temp = dist.x;
 					dist.x = dist.y;
@@ -270,60 +295,65 @@ static void motor_task(void *pvParameters) {
 					interchange = false;
 				}
 
-			    d = (2 * dist.y) - dist.x;
-			    mid.x = prev.x;
-			    mid.y = prev.y;
+				d = (2 * dist.y) - dist.x;
+				mid.x = prev.x;
+				mid.y = prev.y;
 
-			    if (interchange) {
-			    	start = prev.y;
-			    	end = rcv.y + signy;
-			    	step = signy;
-			    } else {
-			    	start = prev.x;
-			    	end = rcv.x + signx;
-			    	step = signx;
-			    }
+				if (interchange) {
+					start = prev.y;
+					end = rcv.y + signy;
+					step = signy;
+				} else {
+					start = prev.x;
+					end = rcv.x + signx;
+					step = signx;
+				}
 
-			    for (counter = start; counter != end; counter += step) {
-			    	// vTaskDelay((TickType_t) 10); // 10ms delay
-			    	printf("\rmidpoint: %d, %d\n", mid.x, mid.y);
+				for (counter = start; counter != end; counter += step) {
+					// vTaskDelay((TickType_t) 10); // 10ms delay
+					printf("\rmidpoint: %d, %d\n", mid.x, mid.y);
 
-			    	//  Draw the distance to mid from prev
-			    	drawdist = getDistance(prev, mid);
-			    	drawdist.x = abs(drawdist.x);
-			    	drawdist.y = abs(drawdist.y);
+					//  Draw the distance to mid from prev
+					drawdist = getDistance(prev, mid);
+					drawdist.x = abs(drawdist.x);
+					drawdist.y = abs(drawdist.y);
 
-			    	if (drawdist.x > 0) {
-			    		runxaxis = true;
-			    		RIT_start(drawdist.x * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
-			    	}
-			    	if (drawdist.y > 0) {
-			    		runxaxis = false;
-			    		RIT_start(drawdist.y * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
-			    	}
+					if (drawdist.x > 0) {
+						runxaxis = true;
+						RIT_start(drawdist.x * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+					}
+					if (drawdist.y > 0) {
+						runxaxis = false;
+						RIT_start(drawdist.y * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+					}
 
-			    	// Old mid becomes new prev
-			    	prev.x = mid.x;
-			    	prev.y = mid.y;
+					// Old mid becomes new prev
+					prev.x = mid.x;
+					prev.y = mid.y;
 
-			    	// Get next mid
-			    	if (interchange) {
-			    		mid.y += signy;
-			    	} else {
-			    		mid.x += signx;
-			    	}
+					// Get next mid
+					if (interchange) {
+						mid.y += signy;
+					} else {
+						mid.x += signx;
+					}
 
-			    	if ( d < 0 ) {
-			    		d += dist.y + dist.y;
-			    	} else {
-			    		d += 2 * (dist.y - dist.x);
-			    		if (interchange) {
-			    			mid.x += signx;
-			    		} else {
-			    			mid.y += signy;
-			    		}
-			    	}
-			    }
+					if ( d < 0 ) {
+						d += dist.y + dist.y;
+					} else {
+						d += 2 * (dist.y - dist.x);
+						if (interchange) {
+							mid.x += signx;
+						} else {
+							mid.y += signy;
+						}
+					}
+				}
+			}
+			else {
+				processOther(i_rcv);
+			}
+
 		}
 
 		vTaskDelay((TickType_t) 10); // 10ms delay
@@ -332,16 +362,10 @@ static void motor_task(void *pvParameters) {
 
 
 static void USB_task(void *pvParameters) {
-//	coord prev;
-	coord next;
-
-//	prev.x = 0;
-//	prev.y = 0;
-
-	bool LedState = false;
-	//const char statusstr[] = "M10 XY 380 310 0.00 0.00 A0 B0 H0 S80 U160 D90\n";
 	const char statusstr[] = "M10 XY 500 500 0.00 0.00 A0 B0 H0 S80 U160 D90\n";
 	const char okstr[] = "OK\n";
+
+	bool LedState = false;
 
 	while (1) {
 		char str[80];
@@ -353,37 +377,13 @@ static void USB_task(void *pvParameters) {
 		// DEBUG PRINT
 		printf("\r%s\n", str);
 
-		// If instruction is a move, send the coordinates to the queue.
-		if (i.type == InstructionType::MOVE) {
-			next.x = i.param1;
-			next.y = i.param2;
-			xQueueSendToBack(coordQueue, (void*) &next , portMAX_DELAY);
-		} else if (i.type ==  InstructionType::MOVE_TO_ORIGIN) {
-			next.x = 0;
-			next.y = 0;
-			xQueueSendToBack(coordQueue, (void*) &next , portMAX_DELAY);
-		}
-
-		if (i.type == InstructionType::SET_PEN) {
-			setPen(i.param1);
-		}
-
 		// Reply to MDraw
 		if (i.type == InstructionType::REPORT_STATUS) {
 			USB_send( (uint8_t *) statusstr, 47);
 		} else {
+			xQueueSendToBack(iQueue, (void*) &i , portMAX_DELAY);
 			USB_send( (uint8_t *) okstr, 3);
 		}
-
-//
-//		// Set new previous coordinates for next iteration
-//		if (i.type == InstructionType::MOVE) {
-//			prev.x = i.param1;
-//			prev.y = i.param2;
-//		} else if (i.type == InstructionType::MOVE_TO_ORIGIN) {
-//			prev.x = 0;
-//			prev.y = 0;
-//		}
 
 		Board_LED_Set(1, LedState);
 		LedState = (bool) !LedState;
@@ -483,8 +483,8 @@ int main(void) {
 	laserpin = new DigitalIoPin (0, 12, false, false, false);
 	laserpin->write(0); // Turn laser off (write low) immediately.
 
-	coordQueue = xQueueCreate(10, sizeof(coord));
-	vQueueAddToRegistry(coordQueue, "coordQueue");
+	iQueue = xQueueCreate(10, sizeof(Instruction));
+	vQueueAddToRegistry(iQueue, "iQueue");
 
 	lim1pin = new DigitalIoPin (1, 3, true, true, true); // Limit switch 1
 	lim2pin = new DigitalIoPin (0, 0, true, true, true); // Limit switch 2

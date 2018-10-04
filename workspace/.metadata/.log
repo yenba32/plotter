@@ -2284,3 +2284,470 @@ java.io.IOException: Input Stream Closed
 	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
 	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.log 1 0 2018-10-04 10:40:41.162
+!MESSAGE Drivers loaded in 985 milliseconds
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 10:40:52.982
+!MESSAGE Telnet session connected on port 3330->59109 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 10:41:43.967
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 10:41:53.678
+!MESSAGE Telnet session connected on port 3330->59132 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 10:42:15.617
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 10:42:27.785
+!MESSAGE Telnet session connected on port 3330->59141 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 10:47:26.818
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.log 1 0 2018-10-04 11:17:54.747
+!MESSAGE Drivers loaded in 1015 milliseconds
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:18:04.787
+!MESSAGE Telnet session connected on port 3330->59345 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:19:12.768
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:19:36.328
+!MESSAGE Telnet session connected on port 3330->59358 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:20:18.372
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:20:28.353
+!MESSAGE Telnet session connected on port 3330->59367 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:21:15.896
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:21:26.246
+!MESSAGE Telnet session connected on port 3330->59374 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:21:54.888
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:22:37.763
+!MESSAGE Telnet session connected on port 3330->59382 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:23:12.765
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:23:38.535
+!MESSAGE Telnet session connected on port 3330->59389 @ 127.0.0.1
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-10-04 11:24:16.170
+!MESSAGE Request for monitor: 'RequestMonitor (org.eclipse.cdt.dsf.concurrent.ImmediateRequestMonitor@6efdf8a3): Status ERROR: org.eclipse.cdt.dsf.gdb code=10003 Invalid context type. null' resulted in an error.
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10003 2018-10-04 11:24:16.170
+!MESSAGE Invalid context type.
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:24:17.737
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:25:34.599
+!MESSAGE Telnet session connected on port 3330->59398 @ 127.0.0.1
+
+!ENTRY org.eclipse.cdt.ui 4 0 2018-10-04 11:25:50.885
+!MESSAGE Error in CDT UI during reconcile
+!STACK 1
+C Model Exception: C Model Status [Element usb_mdraw.cpp does not exist.]
+	at org.eclipse.cdt.internal.core.model.CElement.newNotPresentException(CElement.java:484)
+	at org.eclipse.cdt.internal.core.model.TranslationUnit.makeConsistent(TranslationUnit.java:573)
+	at org.eclipse.cdt.internal.core.model.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:62)
+	at org.eclipse.cdt.internal.core.model.CModelOperation.execute(CModelOperation.java:341)
+	at org.eclipse.cdt.internal.core.model.CModelOperation.run(CModelOperation.java:607)
+	at org.eclipse.cdt.internal.core.model.CModelOperation.runOperation(CModelOperation.java:635)
+	at org.eclipse.cdt.internal.core.model.WorkingCopy.reconcile(WorkingCopy.java:362)
+	at org.eclipse.cdt.internal.ui.text.CReconcilingStrategy.reconcile(CReconcilingStrategy.java:78)
+	at org.eclipse.cdt.internal.ui.text.CReconcilingStrategy.reconcile(CReconcilingStrategy.java:63)
+	at org.eclipse.cdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:87)
+	at org.eclipse.cdt.internal.ui.text.CCompositeReconcilingStrategy.reconcile(CCompositeReconcilingStrategy.java:90)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:73)
+	at org.eclipse.cdt.internal.ui.text.CReconciler.process(CReconciler.java:349)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:207)
+!SUBENTRY 1 org.eclipse.cdt.core 4 969 2018-10-04 11:25:50.894
+!MESSAGE Element usb_mdraw.cpp does not exist.
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:25:54.610
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:27:00.926
+!MESSAGE Telnet session connected on port 3330->59406 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:27:17.617
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:27:58.355
+!MESSAGE Telnet session connected on port 3330->59412 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:29:18.865
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:29:30.366
+!MESSAGE Telnet session connected on port 3330->59418 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:29:52.509
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-10-04 11:29:52.537
+!MESSAGE Request for monitor: 'RequestMonitor (com.crt.dsfdebug.ui.DebugAllHelper$3$2@5f3f02bc): Status ERROR: com.crt.dsfdebug code=10001 GDB Control not accessible. null' resulted in an error.
+!SUBENTRY 1 com.crt.dsfdebug 4 10001 2018-10-04 11:29:52.537
+!MESSAGE GDB Control not accessible.
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-10-04 11:29:52.537
+!MESSAGE Request for monitor: 'RequestMonitor (com.crt.dsfdebug.ui.DebugAllHelper$3$2@308ca878): Status ERROR: com.crt.dsfdebug code=10001 GDB Control not accessible. null' resulted in an error.
+!SUBENTRY 1 com.crt.dsfdebug 4 10001 2018-10-04 11:29:52.537
+!MESSAGE GDB Control not accessible.
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-10-04 11:29:52.539
+!MESSAGE Request for monitor: 'RequestMonitor (com.crt.dsfdebug.ui.DebugAllHelper$3$2@5d1df138): Status ERROR: com.crt.dsfdebug code=10001 GDB Control not accessible. null' resulted in an error.
+!SUBENTRY 1 com.crt.dsfdebug 4 10001 2018-10-04 11:29:52.539
+!MESSAGE GDB Control not accessible.
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-10-04 11:29:52.539
+!MESSAGE Request for monitor: 'RequestMonitor (com.crt.dsfdebug.ui.DebugAllHelper$3$2@59a8224e): Status ERROR: com.crt.dsfdebug code=10001 GDB Control not accessible. null' resulted in an error.
+!SUBENTRY 1 com.crt.dsfdebug 4 10001 2018-10-04 11:29:52.539
+!MESSAGE GDB Control not accessible.
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-10-04 11:29:52.540
+!MESSAGE Request for monitor: 'RequestMonitor (com.crt.dsfdebug.ui.DebugAllHelper$3$2@7ea5f125): Status ERROR: com.crt.dsfdebug code=10001 GDB Control not accessible. null' resulted in an error.
+!SUBENTRY 1 com.crt.dsfdebug 4 10001 2018-10-04 11:29:52.540
+!MESSAGE GDB Control not accessible.
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-10-04 11:29:52.541
+!MESSAGE Request for monitor: 'RequestMonitor (com.crt.dsfdebug.ui.DebugAllHelper$3$2@2bbf49e1): Status ERROR: com.crt.dsfdebug code=10001 GDB Control not accessible. null' resulted in an error.
+!SUBENTRY 1 com.crt.dsfdebug 4 10001 2018-10-04 11:29:52.541
+!MESSAGE GDB Control not accessible.
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-10-04 11:29:52.541
+!MESSAGE Request for monitor: 'RequestMonitor (com.crt.dsfdebug.ui.DebugAllHelper$3$2@1999e99f): Status ERROR: com.crt.dsfdebug code=10001 GDB Control not accessible. null' resulted in an error.
+!SUBENTRY 1 com.crt.dsfdebug 4 10001 2018-10-04 11:29:52.541
+!MESSAGE GDB Control not accessible.
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-10-04 11:29:52.542
+!MESSAGE Request for monitor: 'RequestMonitor (com.crt.dsfdebug.ui.DebugAllHelper$3$2@1bb12b0): Status ERROR: com.crt.dsfdebug code=10001 GDB Control not accessible. null' resulted in an error.
+!SUBENTRY 1 com.crt.dsfdebug 4 10001 2018-10-04 11:29:52.542
+!MESSAGE GDB Control not accessible.
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-10-04 11:29:52.542
+!MESSAGE Request for monitor: 'RequestMonitor (com.crt.dsfdebug.ui.DebugAllHelper$3$2@5046e77b): Status ERROR: com.crt.dsfdebug code=10001 GDB Control not accessible. null' resulted in an error.
+!SUBENTRY 1 com.crt.dsfdebug 4 10001 2018-10-04 11:29:52.542
+!MESSAGE GDB Control not accessible.
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-10-04 11:29:52.543
+!MESSAGE Request for monitor: 'RequestMonitor (com.crt.dsfdebug.ui.DebugAllHelper$3$2@1674cd3): Status ERROR: com.crt.dsfdebug code=10001 GDB Control not accessible. null' resulted in an error.
+!SUBENTRY 1 com.crt.dsfdebug 4 10001 2018-10-04 11:29:52.543
+!MESSAGE GDB Control not accessible.
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:30:44.524
+!MESSAGE Telnet session connected on port 3330->59425 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:33:39.545
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:34:14.189
+!MESSAGE Telnet session connected on port 3330->59438 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:34:34.836
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:34:44.045
+!MESSAGE Telnet session connected on port 3330->59444 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:35:33.155
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:35:45.174
+!MESSAGE Telnet session connected on port 3330->59455 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:36:04.677
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:37:00.048
+!MESSAGE Telnet session connected on port 3330->59461 @ 127.0.0.1
+
+!ENTRY com.crt.debugcommon 4 0 2018-10-04 11:39:07.066
+!MESSAGE There is already a running debug session for the launch configuration 'usb_mdraw LinkServer Debug'.
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:39:12.781
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:39:23.006
+!MESSAGE Telnet session connected on port 3330->59504 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:39:45.083
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:40:08.150
+!MESSAGE Telnet session connected on port 3330->59515 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:41:06.502
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:43:28.211
+!MESSAGE Telnet session connected on port 3330->59535 @ 127.0.0.1
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2018-10-04 11:45:19.445
+!MESSAGE Request for monitor: 'RequestMonitor (org.eclipse.cdt.dsf.concurrent.ImmediateRequestMonitor@532ece57): Status ERROR: org.eclipse.cdt.dsf.gdb code=10003 Invalid context type. null' resulted in an error.
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10003 2018-10-04 11:45:19.445
+!MESSAGE Invalid context type.
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:45:21.001
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:45:34.552
+!MESSAGE Telnet session connected on port 3330->59550 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:46:33.392
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:47:34.719
+!MESSAGE Telnet session connected on port 3330->59561 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:51:13.032
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:51:27.367
+!MESSAGE Telnet session connected on port 3330->59585 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:53:08.258
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:53:22.416
+!MESSAGE Telnet session connected on port 3330->59595 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:58:19.887
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:58:30.928
+!MESSAGE Telnet session connected on port 3330->59617 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 11:59:26.961
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 11:59:50.297
+!MESSAGE Telnet session connected on port 3330->59630 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 12:06:13.942
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 12:06:52.926
+!MESSAGE Telnet session connected on port 3330->59659 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 12:08:36.430
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY com.crt.dsfdebug 1 0 2018-10-04 12:09:03.445
+!MESSAGE Telnet session connected on port 3330->59671 @ 127.0.0.1
+
+!ENTRY org.eclipse.debug.ui 4 120 2018-10-04 12:11:51.085
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.io.IOException: Input Stream Closed
+	at org.eclipse.ui.console.IOConsoleInputStream.available(IOConsoleInputStream.java:267)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:94)
+	at org.eclipse.ui.console.IOConsoleInputStream.read(IOConsoleInputStream.java:119)
+	at org.eclipse.debug.internal.ui.views.console.ProcessConsole$InputReadJob.run(ProcessConsole.java:733)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
