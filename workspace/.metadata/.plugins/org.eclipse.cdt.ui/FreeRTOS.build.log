@@ -1,6 +1,0 @@
-12:08:55 **** Incremental Build of configuration Debug for project FreeRTOS ****
-make -r all 
-make: Nothing to be done for `all'.
-
-12:08:55 Build Finished (took 87ms)
-
