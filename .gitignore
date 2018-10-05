@@ -1,3 +1,5 @@
 parser/test1
 .DS_Store
 workspace/*/Debug
+workspace/.metadata
+workspace/FreeRTOS_TAD_logs
