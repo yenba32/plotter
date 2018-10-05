@@ -10,9 +10,14 @@ Instruction Instruction::parse(const string line) {
 	static const string G1("G1");
 	static const string M1("M1");
 	static const string M4("M4");
+	static const string M11("M11");
 
 	if (line.compare(0, G28.size(), G28) == 0) {
 		return Instruction(InstructionType::MOVE_TO_ORIGIN);
+	}
+
+	if (line.compare(0, M11.size(), M11) == 0) {
+		return Instruction(InstructionType::LIMIT_QUERY);
 	}
 
 	if (line.compare(0, G1.size(), G1) == 0) {

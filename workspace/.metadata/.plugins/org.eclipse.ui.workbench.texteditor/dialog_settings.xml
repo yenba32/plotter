@@ -2,20 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="dist" key="selection"/>
+		<item value="35000" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="dist"/>
-			<item value="prev"/>
-			<item value="rcvdist.x"/>
-			<item value="rcvdist"/>
-			<item value="xy"/>
-			<item value="XY"/>
-			<item value="X500"/>
-			<item value="x500"/>
+			<item value="35000"/>
+			<item value="40000"/>
+			<item value="pps"/>
+			<item value="3500"/>
+			<item value="4000"/>
+			<item value="overridebool"/>
+			<item value="execution"/>
+			<item value="motor_task"/>
 		</list>
 		<list key="replacehistory">
 			<item value="rcvdist."/>

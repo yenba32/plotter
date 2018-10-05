@@ -8,6 +8,7 @@ enum class InstructionType {
 	REPORT_STATUS,
 	SET_PEN,
 	SET_LASER,
+	LIMIT_QUERY,
 	UNKNOWN
 };
 

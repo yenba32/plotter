@@ -6,7 +6,7 @@
  Copyright   : $(copyright)
  Description : main definition
 ===============================================================================
-*/
+ */
 
 #if defined (__USE_LPCOPEN)
 #if defined(NO_BOARD_LIB)
@@ -123,9 +123,10 @@ void setPen(uint8_t pos) {
 }
 
 coord processMove(Instruction i) {
+	const char okstr[] = "OK\n";
 	coord rcv;
 
-	// If instruction is a move, get the coordinates
+	// Get coordinates
 	if (i.type == InstructionType::MOVE) {
 		rcv.x = i.param1;
 		rcv.y = i.param2;
@@ -134,23 +135,52 @@ coord processMove(Instruction i) {
 		rcv.y = 0;
 	}
 
+	// Reply to MDraw
+	USB_send( (uint8_t *) okstr, 3);
+
 	return rcv;
 }
 
+void processStatus(int xlength_mm, int ylength_mm) {
+	int xdim = xlength_mm;
+	int ydim = ylength_mm;
+	char statusstr[60];
+	uint32_t len;
+
+	// Send status string to MDraw with dimensions
+	len = sprintf(statusstr, "M10 XY %d %d 0.00 0.00 A0 B0 H0 S80 U160 D90\n", xdim, ydim);
+	USB_send( (uint8_t *) statusstr, len);
+}
+
 void processOther(Instruction i) {
+	const char okstr[] = "OK\n";
+	uint32_t len;
+	char limitstr[20];
+
 	if (i.type == InstructionType::SET_PEN) {
 		setPen(i.param1);
+	} else if (i.type == InstructionType::SET_LASER) {
+		// Call laser function
+	}
+
+	// Reply to MDraw
+	if (i.type == InstructionType::LIMIT_QUERY) {
+		len = sprintf(limitstr, "M11 %d %d %d %d\n", ymax->read(), ymin->read(), xmax->read(), xmin->read());
+		USB_send( (uint8_t *) limitstr, len);
+	} else {
+		USB_send( (uint8_t *) okstr, 3);
 	}
 }
 
-static void motor_task(void *pvParameters) {
+static void execution_task(void *pvParameters) {
 	int counter, temp, step, start, end;
 	bool interchange;
 	int signx;
 	int signy;
-	int xlength_mm = 500;
-	int ylength_mm = 500;
-	int totalsteps = 500; // HARDCODED VALUE TO BE REPLACED WITH ACTUAL COUNTED STEPS.
+	int xlength_mm = 380; // 500 simulator
+	int ylength_mm = 310; // 500
+	int totalstepsx = 0;
+	int totalstepsy = 0;
 	Instruction i_rcv; // Received MDraw instruction from the queue
 	coord rcv; // Received coordinates from MDraw instruction
 	coord prev; // Previous coordinates received
@@ -160,99 +190,135 @@ static void motor_task(void *pvParameters) {
 	coord mid; // Changing midpoints used by algorithm
 	coord drawdist; // Small distance to draw during each iteration of algorithm
 	int d = 0; // Used by algorithm
-	int pps = 1000;
-	bool startmode = true;
-	bool countingmode = false;
-	bool drawingmode = false;
+	int pps = 2500;
 
-	while (startmode) {
-		// Set direction to clockwise for both motors
-		xdirpin->write(0);
-		xdir_cw = true;
-		ydirpin->write(0);
-		ydir_cw = true;
+	vTaskDelay((TickType_t) 100); // 100ms delay to wait for laser to power down
 
-		// For each motor, go enough steps to ensure max limit switch will be found, then assign the max pointer to the switch.
-		// Reverse direction and repeat.
-		runxaxis = true;
-		RIT_start(4000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
-		//limAssign(xmax);
-		if (lim1pin->read()) {
-			xmax = lim1pin;
-		} else if (lim2pin->read()) {
-			xmax = lim2pin;
-		} else if (lim3pin->read()) {
-			xmax = lim3pin;
-		} else if (lim4pin->read()) {
-			xmax = lim4pin;
-		}
+	// LIMIT SWITCH DETECTION
 
-		xdirpin->write(1);
-		xdir_cw = false;
-		overridebool = true; // Temporarily override the switch stopping the motor
-		RIT_start(4000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
-		overridebool = false;
-		//limAssign(xmin);
-		if (lim1pin->read()) {
-			xmin = lim1pin;
-		} else if (lim2pin->read()) {
-			xmin = lim2pin;
-		} else if (lim3pin->read()) {
-			xmin = lim3pin;
-		} else if (lim4pin->read()) {
-			xmin = lim4pin;
-		}
+	// Check for any closed limit switches. Program should not continue in that case,
+	// because limit switches could be misidentified.
+	while (lim1pin->read() || lim2pin->read() || lim3pin->read() || lim4pin->read()) {
+		USB_send( (uint8_t *) "Error! Limit switches must be open to begin!\n", 45);
+	}
 
-		runxaxis = false;
-		overridebool = true; // Temporarily override the switch stopping the motor
-		RIT_start(4000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
-		overridebool = false;
-		//limAssign(ymax);
-		if (lim1pin->read() && lim1pin != xmin) {
-			ymax = lim1pin;
-		} else if (lim2pin->read() && lim2pin != xmin) {
-			ymax = lim2pin;
-		} else if (lim3pin->read() && lim3pin != xmin) {
-			ymax = lim3pin;
-		} else if (lim4pin->read() && lim4pin != xmin) {
-			ymax = lim4pin;
-		}
+	// Set direction to clockwise for both motors
+	xdirpin->write(0);
+	xdir_cw = true;
+	ydirpin->write(0);
+	ydir_cw = true;
 
-		ydirpin->write(1);
-		ydir_cw = false;
-		overridebool = true; // Temporarily override the switch stopping the motor
-		RIT_start(500 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
-		overridebool = false;
-		RIT_start(3500 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+	// For each motor, go enough steps to ensure max limit switch will be found, then assign the max pointer to the switch.
+	// Reverse direction and repeat.
+	runxaxis = true;
+	RIT_start(40000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+	//limAssign(xmax);
+	if (lim1pin->read()) {
+		xmax = lim1pin;
+	} else if (lim2pin->read()) {
+		xmax = lim2pin;
+	} else if (lim3pin->read()) {
+		xmax = lim3pin;
+	} else if (lim4pin->read()) {
+		xmax = lim4pin;
+	}
+
+	xdirpin->write(1);
+	xdir_cw = false;
+	overridebool = true; // Temporarily override the switch stopping the motor
+	RIT_start(20000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+	overridebool = false;
+	//limAssign(xmin);
+	if (lim1pin->read()) {
+		xmin = lim1pin;
+	} else if (lim2pin->read()) {
+		xmin = lim2pin;
+	} else if (lim3pin->read()) {
+		xmin = lim3pin;
+	} else if (lim4pin->read()) {
+		xmin = lim4pin;
+	}
+
+	runxaxis = false;
+	overridebool = true; // Temporarily override the switch stopping the motor
+	RIT_start(20000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+	overridebool = false;
+	//limAssign(ymax);
+	if (lim1pin->read() && lim1pin != xmin) {
+		ymax = lim1pin;
+	} else if (lim2pin->read() && lim2pin != xmin) {
+		ymax = lim2pin;
+	} else if (lim3pin->read() && lim3pin != xmin) {
+		ymax = lim3pin;
+	} else if (lim4pin->read() && lim4pin != xmin) {
+		ymax = lim4pin;
+	}
+
+	ydirpin->write(1);
+	ydir_cw = false;
+	overridebool = true; // Temporarily override the switch stopping the motor
+	RIT_start(2500 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+	overridebool = false;
+	RIT_start(18000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
 	//	limAssign(ymin);
-		if (lim1pin->read() && lim1pin != xmin) {
-			ymin = lim1pin;
-		} else if (lim2pin->read() && lim2pin != xmin) {
-			ymin = lim2pin;
-		} else if (lim3pin->read() && lim3pin != xmin) {
-			ymin = lim3pin;
-		} else if (lim4pin->read() && lim4pin != xmin) {
-			ymin = lim4pin;
-		}
-
-		startmode = false;
-		countingmode = true;
+	if (lim1pin->read() && lim1pin != xmin) {
+		ymin = lim1pin;
+	} else if (lim2pin->read() && lim2pin != xmin) {
+		ymin = lim2pin;
+	} else if (lim3pin->read() && lim3pin != xmin) {
+		ymin = lim3pin;
+	} else if (lim4pin->read() && lim4pin != xmin) {
+		ymin = lim4pin;
 	}
-	while (countingmode) {
-		//count steps
-		countingmode = false;
-		motorcalibrating = false; // Switch limit-switch-reading mode in interrupt handler
-		drawingmode = true;
-	}
-	while (drawingmode) {
 
+	// STEP COUNTING
+
+	motorcalibrating = false; // Switch limit-switch-reading mode in interrupt handler
+
+	// Set direction to clockwise for both motors
+	xdirpin->write(0);
+	xdir_cw = true;
+	ydirpin->write(0);
+	ydir_cw = true;
+
+	runxaxis = true;
+
+	while (!xmax->read()) {
+		RIT_start(2, 500000 / pps); // Single step
+		totalstepsx++;
+	}
+
+	runxaxis = false;
+
+	while (!ymax->read()) {
+		RIT_start(2, 500000 / pps); // Single step
+		totalstepsy++;
+	}
+
+	// Set direction to counterclockwise for both motors
+	xdirpin->write(1);
+	xdir_cw = false;
+	ydirpin->write(1);
+	ydir_cw = false;
+
+	// Return to origin
+	runxaxis = true;
+	RIT_start(totalstepsx * 2, 500000 / pps);
+	runxaxis = false;
+	RIT_start(totalstepsy * 2, 500000 / pps);
+
+	while (1) {
+
+		// Receive next instruction from queue
 		if (xQueueReceive(iQueue, &i_rcv, portMAX_DELAY) == pdPASS) {
 
-			if (i_rcv.type == InstructionType::MOVE || i_rcv.type == InstructionType::MOVE_TO_ORIGIN) {
+			if (i_rcv.type == InstructionType::REPORT_STATUS) {
+				processStatus(xlength_mm, ylength_mm);
+			} else if (i_rcv.type == InstructionType::MOVE || i_rcv.type == InstructionType::MOVE_TO_ORIGIN) {
 				rcv = processMove(i_rcv);
 				// Convert coordinates from mm to steps
-				rcv.x = rcv.x * totalsteps / xlength_mm;
-				rcv.y = rcv.y * totalsteps / ylength_mm;
+				rcv.x = rcv.x * totalstepsx / xlength_mm;
+				rcv.y = rcv.y * totalstepsy / ylength_mm;
 
 				// Scale back down and round
 				rcv.x = (rcv.x + 50) / 100;
@@ -349,11 +415,9 @@ static void motor_task(void *pvParameters) {
 						}
 					}
 				}
-			}
-			else {
+			} else {
 				processOther(i_rcv);
 			}
-
 		}
 
 		vTaskDelay((TickType_t) 10); // 10ms delay
@@ -362,31 +426,18 @@ static void motor_task(void *pvParameters) {
 
 
 static void USB_task(void *pvParameters) {
-	const char statusstr[] = "M10 XY 500 500 0.00 0.00 A0 B0 H0 S80 U160 D90\n";
-	const char okstr[] = "OK\n";
-
-	bool LedState = false;
 
 	while (1) {
 		char str[80];
-		uint32_t len = USB_receive((uint8_t *)str, 79);
-		str[len] = 0; /* make sure we have a zero at the end so that we can print the data */
+		USB_receive((uint8_t *)str, 79);
 
 		Instruction i = Instruction::parse(str);
 
 		// DEBUG PRINT
-		printf("\r%s\n", str);
+		//		printf("\r%s\n", str);
 
-		// Reply to MDraw
-		if (i.type == InstructionType::REPORT_STATUS) {
-			USB_send( (uint8_t *) statusstr, 47);
-		} else {
-			xQueueSendToBack(iQueue, (void*) &i , portMAX_DELAY);
-			USB_send( (uint8_t *) okstr, 3);
-		}
-
-		Board_LED_Set(1, LedState);
-		LedState = (bool) !LedState;
+		// Add instruction to queue
+		xQueueSendToBack(iQueue, (void*) &i , portMAX_DELAY);
 
 		vTaskDelay((TickType_t) 10); // 10ms delay
 	}
@@ -491,9 +542,9 @@ int main(void) {
 	lim3pin = new DigitalIoPin (0, 9, true, true, true); // Limit switch 3
 	lim4pin = new DigitalIoPin (0, 29, true, true, true); // Limit switch 4
 
-//	// FOR TESTING WITH SINGLE MOTOR ONLY
-//	lim1pin = new DigitalIoPin (0, 28, true, true, true); // Limit switch 1
-//	lim2pin = new DigitalIoPin (0, 27, true, true, true); // Limit switch 2
+	//	// FOR TESTING WITH SINGLE MOTOR ONLY
+	//	lim1pin = new DigitalIoPin (0, 28, true, true, true); // Limit switch 1
+	//	lim2pin = new DigitalIoPin (0, 27, true, true, true); // Limit switch 2
 
 	xdirpin = new DigitalIoPin (0, 28, false, false, false); // CCW 1, CW 0
 	xsteppin = new DigitalIoPin (0, 27, false, false, false); // Step pin
@@ -514,9 +565,9 @@ int main(void) {
 	sbRIT = xSemaphoreCreateBinary();
 
 	if (laserpin->read() == 0) { // Extra check to verify laser is off before tasks start
-		xTaskCreate(motor_task, "Motor",
-					configMINIMAL_STACK_SIZE + 256, NULL, (tskIDLE_PRIORITY + 1UL),
-					(TaskHandle_t *) NULL);
+		xTaskCreate(execution_task, "Exec",
+				configMINIMAL_STACK_SIZE + 256, NULL, (tskIDLE_PRIORITY + 1UL),
+				(TaskHandle_t *) NULL);
 
 		xTaskCreate(USB_task, "USB",
 				configMINIMAL_STACK_SIZE + 256, NULL, (tskIDLE_PRIORITY + 1UL),

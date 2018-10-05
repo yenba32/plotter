@@ -9625,3 +9625,915 @@ arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_md
    text	   data	    bss	    dec	    hex	filename
   61880	   2580	   2028	  66488	  103b8	usb_mdraw.axf
  
+10:25:24 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+10:25:25 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+10:25:25 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+10:25:26 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/instruction.cc
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/instruction.d" -MT"src/instruction.o" -MT"src/instruction.d" -o "src/instruction.o" "../src/instruction.cc"
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+../src/instruction.cc: In static member function 'static Instruction Instruction::parse(std::__cxx11::string)':
+../src/instruction.cc:42:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+Finished building: ../src/instruction.cc
+ 
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70652 B       256 KB     26.95%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68072	   2580	   2056	  72708	  11c04	usb_mdraw.axf
+ 
+10:52:51 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+10:52:51 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+10:52:52 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+10:52:52 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+../src/usb_mdraw.cpp: In function 'void USB_task(void*)':
+../src/usb_mdraw.cpp:404:12: warning: unused variable 'len' [-Wunused-variable]
+   uint32_t len = USB_receive((uint8_t *)str, 79);
+            ^~~
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70644 B       256 KB     26.95%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68064	   2580	   2056	  72700	  11bfc	usb_mdraw.axf
+ 
+10:52:55 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+../src/usb_mdraw.cpp: In function 'void USB_task(void*)':
+../src/usb_mdraw.cpp:404:12: warning: unused variable 'len' [-Wunused-variable]
+   uint32_t len = USB_receive((uint8_t *)str, 79);
+            ^~~
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70644 B       256 KB     26.95%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68064	   2580	   2056	  72700	  11bfc	usb_mdraw.axf
+ 
+10:57:09 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+10:57:09 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+10:57:10 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+10:57:10 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+../src/usb_mdraw.cpp: In function 'void USB_task(void*)':
+../src/usb_mdraw.cpp:404:12: warning: unused variable 'len' [-Wunused-variable]
+   uint32_t len = USB_receive((uint8_t *)str, 79);
+            ^~~
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70644 B       256 KB     26.95%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68064	   2580	   2056	  72700	  11bfc	usb_mdraw.axf
+ 
+10:57:13 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+../src/usb_mdraw.cpp: In function 'void USB_task(void*)':
+../src/usb_mdraw.cpp:404:12: warning: unused variable 'len' [-Wunused-variable]
+   uint32_t len = USB_receive((uint8_t *)str, 79);
+            ^~~
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70644 B       256 KB     26.95%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68064	   2580	   2056	  72700	  11bfc	usb_mdraw.axf
+ 
+10:59:11 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+10:59:12 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+10:59:12 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+10:59:12 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+../src/usb_mdraw.cpp: In function 'void USB_task(void*)':
+../src/usb_mdraw.cpp:404:12: warning: unused variable 'len' [-Wunused-variable]
+   uint32_t len = USB_receive((uint8_t *)str, 79);
+            ^~~
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70644 B       256 KB     26.95%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68064	   2580	   2056	  72700	  11bfc	usb_mdraw.axf
+ 
+10:59:15 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+../src/usb_mdraw.cpp: In function 'void USB_task(void*)':
+../src/usb_mdraw.cpp:404:12: warning: unused variable 'len' [-Wunused-variable]
+   uint32_t len = USB_receive((uint8_t *)str, 79);
+            ^~~
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70644 B       256 KB     26.95%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68064	   2580	   2056	  72700	  11bfc	usb_mdraw.axf
+ 
+11:56:49 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+11:56:49 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+11:56:49 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+11:56:50 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70708 B       256 KB     26.97%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68128	   2580	   2056	  72764	  11c3c	usb_mdraw.axf
+ 
+11:56:53 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70708 B       256 KB     26.97%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68128	   2580	   2056	  72764	  11c3c	usb_mdraw.axf
+ 
+11:57:48 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+11:57:48 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+11:57:49 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+11:57:49 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70708 B       256 KB     26.97%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68128	   2580	   2056	  72764	  11c3c	usb_mdraw.axf
+ 
+11:57:52 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70708 B       256 KB     26.97%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68128	   2580	   2056	  72764	  11c3c	usb_mdraw.axf
+ 
+12:00:49 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+12:00:50 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+12:00:50 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+12:00:51 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:00:53 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:03:17 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+12:03:17 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+12:03:18 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+12:03:18 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:03:21 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:05:54 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+12:05:55 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+12:05:55 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+12:05:56 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:05:58 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:10:02 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+12:10:03 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+12:10:03 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+12:10:04 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:10:07 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:14:57 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+12:14:58 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+12:14:58 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+12:14:59 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:15:01 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:21:02 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+12:21:02 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+12:21:02 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+12:21:03 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:21:06 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:23:41 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+12:23:42 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+12:23:42 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+12:23:42 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:23:45 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:24:48 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+12:24:49 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+12:24:49 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+12:24:50 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:24:53 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:27:09 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+12:27:10 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+12:27:12 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+12:27:13 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:27:20 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:29:39 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+12:29:39 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+12:29:40 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+12:29:40 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:29:42 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:31:37 **** Incremental Build of configuration Debug for project lpc_board_nxp_lpcxpresso_1549 ****
+make -r all 
+make: Nothing to be done for `all'.
+12:31:38 **** Incremental Build of configuration Debug for project lpc_chip_15xx ****
+make -r all 
+make: Nothing to be done for `all'.
+12:31:38 **** Incremental Build of configuration Debug for project FreeRTOS ****
+make -r all 
+make: Nothing to be done for `all'.
+12:31:39 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
+12:31:41 **** Incremental Build of configuration Debug for project usb_mdraw ****
+make -r -j3 all 
+Building file: ../src/usb_mdraw.cpp
+Invoking: MCU C++ Compiler
+arm-none-eabi-c++ -std=c++11 -D__NEWLIB__ -DDEBUG -D__CODE_RED -DCORE_M3 -D__USE_LPCOPEN -DCPP_USE_HEAP -D__LPC15XX__ -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/usb_mdraw/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/inc/usbd" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/inc" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/include" -I"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/src/portable/GCC/ARM_CM3" -O0 -fno-common -g3 -Wall -c -fmessage-length=0 -fno-builtin -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -mcpu=cortex-m3 -mthumb -MMD -MP -MF"src/usb_mdraw.d" -MT"src/usb_mdraw.o" -MT"src/usb_mdraw.d" -o "src/usb_mdraw.o" "../src/usb_mdraw.cpp"
+Finished building: ../src/usb_mdraw.cpp
+ 
+Building target: usb_mdraw.axf
+Invoking: MCU C++ Linker
+arm-none-eabi-c++ -nostdlib -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_board_nxp_lpcxpresso_1549/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/lpc_chip_15xx/Debug" -L"/Users/sam/Documents/Metropolia/Y3/Y3Q1/Project/plotter/workspace/FreeRTOS/Debug" -Xlinker -Map="usb_mdraw.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -mcpu=cortex-m3 -mthumb -T "usb_cdc_Debug.ld" -o "usb_mdraw.axf"  ./src/DigitalIoPin.o ./src/Fmutex.o ./src/ITM_write.o ./src/cdc_desc.o ./src/cdc_main.o ./src/cdc_vcom.o ./src/cr_cpp_config.o ./src/cr_startup_lpc15xx.o ./src/crp.o ./src/instruction.o ./src/sysinit.o ./src/usb_mdraw.o   -lfreertos -llpc_board_nxp_lpcxpresso_1549 -llpc_chip_15xx -lFreeRTOS
+Memory region         Used Size  Region Size  %age Used
+       MFlash256:       70804 B       256 KB     27.01%
+      Ram0_16_32:        4636 B        32 KB     14.15%
+          Ram2_4:          0 GB         4 KB      0.00%
+Finished building target: usb_mdraw.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "usb_mdraw.axf"; # arm-none-eabi-objcopy -v -O binary "usb_mdraw.axf" "usb_mdraw.bin" ; # checksum -p LPC1549 -d "usb_mdraw.bin";
+   text	   data	    bss	    dec	    hex	filename
+  68224	   2580	   2056	  72860	  11c9c	usb_mdraw.axf
+ 
