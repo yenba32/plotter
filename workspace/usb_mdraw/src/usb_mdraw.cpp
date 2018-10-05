@@ -177,8 +177,8 @@ static void execution_task(void *pvParameters) {
 	bool interchange;
 	int signx;
 	int signy;
-	int xlength_mm = 700; // 500 simulator
-	int ylength_mm = 700; // 500
+	int xlength_mm = 380; // 500 simulator
+	int ylength_mm = 310; // 500
 	int totalstepsx = 0;
 	int totalstepsy = 0;
 	Instruction i_rcv; // Received MDraw instruction from the queue
@@ -190,7 +190,7 @@ static void execution_task(void *pvParameters) {
 	coord mid; // Changing midpoints used by algorithm
 	coord drawdist; // Small distance to draw during each iteration of algorithm
 	int d = 0; // Used by algorithm
-	int pps = 2500;
+	int pps = 4000;
 
 	vTaskDelay((TickType_t) 100); // 100ms delay to wait for laser to power down
 
@@ -236,8 +236,8 @@ static void execution_task(void *pvParameters) {
 	xdir_cw = false;
 
 	overridebool = true; // Temporarily override the switch stopping the motor
-	RIT_start(100 * 2, 500000 / pps);
-	totalstepsx += 100;
+	RIT_start(500 * 2, 500000 / pps);
+	totalstepsx += 500;
 	overridebool = false;
 
 	do  {
@@ -259,7 +259,7 @@ static void execution_task(void *pvParameters) {
 	xdir_cw = true;
 
 	overridebool = true; // Temporarily override the switch stopping the motor
-	RIT_start(100 * 2, 500000 / pps);
+	RIT_start(500 * 2, 500000 / pps);
 	overridebool = false;
 
 	////// Y MAX
@@ -268,13 +268,13 @@ static void execution_task(void *pvParameters) {
 	while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0) {}
 
 	//limAssign(ymax);
-	if (lim1pin->read() && lim1pin != xmin) {
+	if (lim1pin->read()) {
 		ymax = lim1pin;
-	} else if (lim2pin->read() && lim2pin != xmin) {
+	} else if (lim2pin->read()) {
 		ymax = lim2pin;
-	} else if (lim3pin->read() && lim3pin != xmin) {
+	} else if (lim3pin->read()) {
 		ymax = lim3pin;
-	} else if (lim4pin->read() && lim4pin != xmin) {
+	} else if (lim4pin->read()) {
 		ymax = lim4pin;
 	}
 
@@ -284,8 +284,8 @@ static void execution_task(void *pvParameters) {
 	ydir_cw = false;
 
 	overridebool = true; // Temporarily override the switch stopping the motor
-	RIT_start(100 * 2, 500000 / pps);
-	totalstepsy += 100;
+	RIT_start(500 * 2, 500000 / pps);
+	totalstepsy += 500;
 	overridebool = false;
 
 	do  {
@@ -293,13 +293,13 @@ static void execution_task(void *pvParameters) {
 	} while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0);
 
 	//	limAssign(ymin);
-	if (lim1pin->read() && lim1pin != xmin) {
+	if (lim1pin->read()) {
 		ymin = lim1pin;
-	} else if (lim2pin->read() && lim2pin != xmin) {
+	} else if (lim2pin->read()) {
 		ymin = lim2pin;
-	} else if (lim3pin->read() && lim3pin != xmin) {
+	} else if (lim3pin->read()) {
 		ymin = lim3pin;
-	} else if (lim4pin->read() && lim4pin != xmin) {
+	} else if (lim4pin->read()) {
 		ymin = lim4pin;
 	}
 
@@ -307,10 +307,17 @@ static void execution_task(void *pvParameters) {
 	xdirpin->write(1);
 	xdir_cw = false;
 
-	runxaxis = true;
+	// TESTING
+	ydirpin->write(0);
+	ydir_cw = true;
 	overridebool = true;
-	RIT_start(100 * 2, 500000 / pps);
+	RIT_start(500 * 2, 500000 / pps);
 	overridebool = false;
+
+//	runxaxis = true;
+//	overridebool = true;
+//	RIT_start(500 * 2, 500000 / pps);
+//	overridebool = false;
 
 	motorcalibrating = false;
 
@@ -382,8 +389,8 @@ static void execution_task(void *pvParameters) {
 				}
 
 				for (counter = start; counter != end; counter += step) {
-					// vTaskDelay((TickType_t) 10); // 10ms delay
-					printf("\rmidpoint: %d, %d\n", mid.x, mid.y);
+					 vTaskDelay((TickType_t) 1); // 1ms delay
+					//printf("\rmidpoint: %d, %d\n", mid.x, mid.y);
 
 					//  Draw the distance to mid from prev
 					drawdist = getDistance(prev, mid);
@@ -424,9 +431,9 @@ static void execution_task(void *pvParameters) {
 			} else {
 				processOther(i_rcv);
 			}
+		} else {
+			vTaskDelay((TickType_t) 10); // 10ms delay
 		}
-
-		vTaskDelay((TickType_t) 10); // 10ms delay
 	}
 }
 
@@ -444,8 +451,6 @@ static void USB_task(void *pvParameters) {
 
 		// Add instruction to queue
 		xQueueSendToBack(iQueue, (void*) &i , portMAX_DELAY);
-
-		vTaskDelay((TickType_t) 10); // 10ms delay
 	}
 }
 
