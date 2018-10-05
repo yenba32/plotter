@@ -65,7 +65,7 @@ xSemaphoreHandle sbRIT;
 QueueHandle_t iQueue;
 
 coord getDistance(coord from, coord to);
-void RIT_start(int count, int us);
+uint32_t RIT_start(uint32_t count, uint32_t us);
 
 // TODO: insert other definitions and declarations here
 
@@ -177,8 +177,8 @@ static void execution_task(void *pvParameters) {
 	bool interchange;
 	int signx;
 	int signy;
-	int xlength_mm = 380; // 500 simulator
-	int ylength_mm = 310; // 500
+	int xlength_mm = 700; // 500 simulator
+	int ylength_mm = 700; // 500
 	int totalstepsx = 0;
 	int totalstepsy = 0;
 	Instruction i_rcv; // Received MDraw instruction from the queue
@@ -211,7 +211,14 @@ static void execution_task(void *pvParameters) {
 	// For each motor, go enough steps to ensure max limit switch will be found, then assign the max pointer to the switch.
 	// Reverse direction and repeat.
 	runxaxis = true;
-	RIT_start(40000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+
+	uint32_t remaining = 0;
+
+	////// X MAX
+
+	while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0) {}
+
+	// Steps * 2 to account for high and low pulse.
 	//limAssign(xmax);
 	if (lim1pin->read()) {
 		xmax = lim1pin;
@@ -223,12 +230,21 @@ static void execution_task(void *pvParameters) {
 		xmax = lim4pin;
 	}
 
+	////// X MIN
+
 	xdirpin->write(1);
 	xdir_cw = false;
+
 	overridebool = true; // Temporarily override the switch stopping the motor
-	RIT_start(20000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+	RIT_start(100 * 2, 500000 / pps);
+	totalstepsx += 100;
 	overridebool = false;
-	//limAssign(xmin);
+
+	do  {
+		totalstepsx += 4000 - remaining / 2;
+	} while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0);
+
+	// limAssign(xmin);
 	if (lim1pin->read()) {
 		xmin = lim1pin;
 	} else if (lim2pin->read()) {
@@ -239,10 +255,18 @@ static void execution_task(void *pvParameters) {
 		xmin = lim4pin;
 	}
 
-	runxaxis = false;
+	xdirpin->write(0);
+	xdir_cw = true;
+
 	overridebool = true; // Temporarily override the switch stopping the motor
-	RIT_start(20000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+	RIT_start(100 * 2, 500000 / pps);
 	overridebool = false;
+
+	////// Y MAX
+
+	runxaxis = false;
+	while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0) {}
+
 	//limAssign(ymax);
 	if (lim1pin->read() && lim1pin != xmin) {
 		ymax = lim1pin;
@@ -254,12 +278,20 @@ static void execution_task(void *pvParameters) {
 		ymax = lim4pin;
 	}
 
+	////// Y MIN
+
 	ydirpin->write(1);
 	ydir_cw = false;
+
 	overridebool = true; // Temporarily override the switch stopping the motor
-	RIT_start(2500 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+	RIT_start(100 * 2, 500000 / pps);
+	totalstepsy += 100;
 	overridebool = false;
-	RIT_start(18000 * 2, 500000 / pps); // Steps * 2 to account for high and low pulse.
+
+	do  {
+		totalstepsy += 4000 - remaining / 2;
+	} while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0);
+
 	//	limAssign(ymin);
 	if (lim1pin->read() && lim1pin != xmin) {
 		ymin = lim1pin;
@@ -271,44 +303,18 @@ static void execution_task(void *pvParameters) {
 		ymin = lim4pin;
 	}
 
-	// STEP COUNTING
-
-	motorcalibrating = false; // Switch limit-switch-reading mode in interrupt handler
-
-	// Set direction to clockwise for both motors
-	xdirpin->write(0);
-	xdir_cw = true;
-	ydirpin->write(0);
-	ydir_cw = true;
-
-	runxaxis = true;
-
-	while (!xmax->read()) {
-		RIT_start(2, 500000 / pps); // Single step
-		totalstepsx++;
-	}
-
-	runxaxis = false;
-
-	while (!ymax->read()) {
-		RIT_start(2, 500000 / pps); // Single step
-		totalstepsy++;
-	}
-
-	// Set direction to counterclockwise for both motors
+	// Return to origin
 	xdirpin->write(1);
 	xdir_cw = false;
-	ydirpin->write(1);
-	ydir_cw = false;
 
-	// Return to origin
 	runxaxis = true;
-	RIT_start(totalstepsx * 2, 500000 / pps);
-	runxaxis = false;
-	RIT_start(totalstepsy * 2, 500000 / pps);
+	overridebool = true;
+	RIT_start(100 * 2, 500000 / pps);
+	overridebool = false;
+
+	motorcalibrating = false;
 
 	while (1) {
-
 		// Receive next instruction from queue
 		if (xQueueReceive(iQueue, &i_rcv, portMAX_DELAY) == pdPASS) {
 
@@ -452,20 +458,30 @@ void RIT_IRQHandler(void)
 	// Timer then removes the IRQ until next match occurs
 	Chip_RIT_ClearIntStatus(LPC_RITIMER); // clear IRQ flag
 
-	if(RIT_count > 0) {
-		RIT_count--;
+	bool hitting = lim1pin->read() || lim2pin->read() || lim3pin->read() || lim4pin->read();
 
-		if (motorcalibrating) {
-			if ((!lim1pin->read() && !lim2pin->read() && !lim3pin->read() && !lim4pin->read()) || overridebool) {
-				if (runxaxis) {
-					xsteppin->write(xstepbool);
-					xstepbool = !xstepbool;
-				} else {
-					ysteppin->write(ystepbool);
-					ystepbool = !ystepbool;
-				}
+	if (motorcalibrating) {
+		if(RIT_count > 0 && (!hitting || overridebool)) {
+			RIT_count--;
+
+			if (runxaxis) {
+				xsteppin->write(xstepbool);
+				xstepbool = !xstepbool;
+			} else {
+				ysteppin->write(ystepbool);
+				ystepbool = !ystepbool;
 			}
-		} else {
+		}
+
+		if (RIT_count == 0 || (hitting && !overridebool)) {
+			Chip_RIT_Disable(LPC_RITIMER); // disable timer
+			// Give semaphore and set context switch flag if a higher priority task was woken up
+			xSemaphoreGiveFromISR(sbRIT, &xHigherPriorityWoken);
+		}
+	} else {
+		if (RIT_count > 0) {
+			RIT_count--;
+
 			if (runxaxis) {
 				if ((xdir_cw && !xmax->read()) || (!xdir_cw && !xmin->read())) {
 					xsteppin->write(xstepbool);
@@ -478,18 +494,20 @@ void RIT_IRQHandler(void)
 				}
 			}
 		}
+
+		if (RIT_count == 0) {
+			Chip_RIT_Disable(LPC_RITIMER); // disable timer
+			// Give semaphore and set context switch flag if a higher priority task was woken up
+			xSemaphoreGiveFromISR(sbRIT, &xHigherPriorityWoken);
+		}
 	}
-	if (RIT_count == 0) {
-		Chip_RIT_Disable(LPC_RITIMER); // disable timer
-		// Give semaphore and set context switch flag if a higher priority task was woken up
-		xSemaphoreGiveFromISR(sbRIT, &xHigherPriorityWoken);
-	}
+
 	// End the ISR and (possibly) do a context switch
 	portEND_SWITCHING_ISR(xHigherPriorityWoken);
 }
 }
 
-void RIT_start(int count, int us) {
+uint32_t RIT_start(uint32_t count, uint32_t us) {
 	uint64_t cmp_value;
 
 	// Determine approximate compare value based on clock rate and passed interval
@@ -518,6 +536,8 @@ void RIT_start(int count, int us) {
 	else {
 		// unexpected error
 	}
+
+	return RIT_count;
 }
 
 coord getDistance(coord from, coord to) {
