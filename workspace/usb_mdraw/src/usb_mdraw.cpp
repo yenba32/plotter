@@ -16,6 +16,7 @@
 #endif
 #endif
 
+#include <string>
 #include <cr_section_macros.h>
 
 // TODO: insert other include files here
@@ -464,19 +465,32 @@ static void execution_task(void *pvParameters) {
 
 
 static void USB_task(void *pvParameters) {
+	std::string line;
+	static uint8_t *errorLineTooLong = (uint8_t *) "Line too long!\r\n";
 
 	while (1) {
-		char str[80];
-		USB_receive((uint8_t *)str, 79);
+		char temp[64];
+		uint32_t len = USB_receive((uint8_t *)temp, 63);
+		temp[len] = 0;
 
-		Instruction i = Instruction::parse(str);
+		if (line.size() < 256) {
+			line.append(temp);
+
+			if (temp[len - 1] == '\n') {
+				Instruction i = Instruction::parse(line.c_str());
+
+				BaseType_t result = xQueueSendToBack(iQueue, (void*) &i , portMAX_DELAY);
+				configASSERT(result == pdTRUE);
+
+				line.clear();
+			}
+		} else {
+			USB_send(errorLineTooLong, sizeof(errorLineTooLong));
+			line.clear();
+		}
 
 		// DEBUG PRINT
 		//		printf("\r%s\n", str);
-
-		// Add instruction to queue
-		BaseType_t result = xQueueSendToBack(iQueue, (void*) &i , portMAX_DELAY);
-		configASSERT(result == pdTRUE);
 	}
 }
 
