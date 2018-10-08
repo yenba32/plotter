@@ -181,6 +181,7 @@ static void execution_task(void *pvParameters) {
 	int ylength_mm = 310; // 500
 	int totalstepsx = 0;
 	int totalstepsy = 0;
+
 	Instruction i_rcv; // Received MDraw instruction from the queue
 	coord rcv; // Received coordinates from MDraw instruction
 	coord prev; // Previous coordinates received
@@ -190,11 +191,23 @@ static void execution_task(void *pvParameters) {
 	coord mid; // Changing midpoints used by algorithm
 	coord drawdist; // Small distance to draw during each iteration of algorithm
 	int d = 0; // Used by algorithm
-	int pps = 4000;
+	int pps = 2000;
 
 	vTaskDelay((TickType_t) 100); // 100ms delay to wait for laser to power down
 
 	// LIMIT SWITCH DETECTION
+
+	configASSERT(lim1pin != NULL);
+	configASSERT(lim2pin != NULL);
+	configASSERT(lim3pin != NULL);
+	configASSERT(lim4pin != NULL);
+	configASSERT(xdirpin != NULL);
+	configASSERT(ydirpin != NULL);
+	configASSERT(xsteppin != NULL);
+	configASSERT(ysteppin != NULL);
+	configASSERT(penPin != NULL);
+	configASSERT(laserpin != NULL);
+	configASSERT(iQueue != NULL);
 
 	// Check for any closed limit switches. Program should not continue in that case,
 	// because limit switches could be misidentified.
@@ -303,6 +316,11 @@ static void execution_task(void *pvParameters) {
 		ymin = lim4pin;
 	}
 
+	configASSERT(ymin != NULL);
+	configASSERT(ymax != NULL);
+	configASSERT(xmin != NULL);
+	configASSERT(xmax != NULL);
+
 	// Return to origin
 	xdirpin->write(1);
 	xdir_cw = false;
@@ -324,7 +342,6 @@ static void execution_task(void *pvParameters) {
 	while (1) {
 		// Receive next instruction from queue
 		if (xQueueReceive(iQueue, &i_rcv, portMAX_DELAY) == pdPASS) {
-
 			if (i_rcv.type == InstructionType::REPORT_STATUS) {
 				processStatus(xlength_mm, ylength_mm);
 			} else if (i_rcv.type == InstructionType::MOVE || i_rcv.type == InstructionType::MOVE_TO_ORIGIN) {
@@ -332,6 +349,9 @@ static void execution_task(void *pvParameters) {
 				// Convert coordinates from mm to steps
 				rcv.x = rcv.x * totalstepsx / xlength_mm;
 				rcv.y = rcv.y * totalstepsy / ylength_mm;
+
+				configASSERT(rcv.x <= 0xFFFFFFFF - 50);
+				configASSERT(rcv.y <= 0xFFFFFFFF - 50);
 
 				// Scale back down and round
 				rcv.x = (rcv.x + 50) / 100;
@@ -389,13 +409,15 @@ static void execution_task(void *pvParameters) {
 				}
 
 				for (counter = start; counter != end; counter += step) {
-					 vTaskDelay((TickType_t) 1); // 1ms delay
+					 // vTaskDelay((TickType_t) 1); // 1ms delay
 					//printf("\rmidpoint: %d, %d\n", mid.x, mid.y);
 
 					//  Draw the distance to mid from prev
 					drawdist = getDistance(prev, mid);
 					drawdist.x = abs(drawdist.x);
 					drawdist.y = abs(drawdist.y);
+
+					configASSERT(!(counter != start && drawdist.x == 0 && drawdist.y == 0));
 
 					if (drawdist.x > 0) {
 						runxaxis = true;
@@ -432,6 +454,7 @@ static void execution_task(void *pvParameters) {
 				processOther(i_rcv);
 			}
 		} else {
+			configASSERT(0);
 			vTaskDelay((TickType_t) 10); // 10ms delay
 		}
 	}
@@ -450,7 +473,8 @@ static void USB_task(void *pvParameters) {
 		//		printf("\r%s\n", str);
 
 		// Add instruction to queue
-		xQueueSendToBack(iQueue, (void*) &i , portMAX_DELAY);
+		BaseType_t result = xQueueSendToBack(iQueue, (void*) &i , portMAX_DELAY);
+		configASSERT(result == pdTRUE);
 	}
 }
 
