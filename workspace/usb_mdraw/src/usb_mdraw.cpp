@@ -609,7 +609,7 @@ int main(void) {
 	// set the priority level of the interrupt
 	// The level must be equal or lower than the maximum priority specified in FreeRTOS config
 	// Note that in a Cortex-M3 a higher number indicates lower interrupt priority
-	NVIC_SetPriority( RITIMER_IRQn, configMAX_SYSCALL_INTERRUPT_PRIORITY + 1 );
+	NVIC_SetPriority( RITIMER_IRQn, 5 );
 
 	sbRIT = xSemaphoreCreateBinary();
 
