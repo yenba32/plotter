@@ -209,6 +209,8 @@ static void execution_task(void *pvParameters) {
 	configASSERT(laserpin != NULL);
 	configASSERT(iQueue != NULL);
 
+	setPen(160);
+
 	// Check for any closed limit switches. Program should not continue in that case,
 	// because limit switches could be misidentified.
 	while (lim1pin->read() || lim2pin->read() || lim3pin->read() || lim4pin->read()) {
