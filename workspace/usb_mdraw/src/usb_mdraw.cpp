@@ -148,7 +148,7 @@ void processStatus(int xlength_mm, int ylength_mm) {
 	uint32_t len;
 
 	// Send status string to MDraw with dimensions
-	len = sprintf(statusstr, "M10 XY %d %d 0.00 0.00 A0 B0 H0 S80 U160 D90\n", xdim, ydim);
+	len = sprintf(statusstr, "M10 XY %d %d 0.00 0.00 A0 B0 H0 S80 U160 D65\n", xdim, ydim);
 	USB_send( (uint8_t *) statusstr, len);
 }
 
