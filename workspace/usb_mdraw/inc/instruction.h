@@ -9,6 +9,7 @@ enum class InstructionType {
 	SET_PEN,
 	SET_LASER,
 	LIMIT_QUERY,
+	CALIBRATE,
 	UNKNOWN
 };
 

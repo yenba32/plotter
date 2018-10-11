@@ -59,7 +59,7 @@ bool ydir_cw = false;
 
 bool overridebool = false; // Used to override limit switch lockout in calibration stage
 bool runxaxis = true; // Set X or Y axis for interrupt
-bool motorcalibrating = true; // Used when limit switches' identity unknown
+bool motorcalibrating = false; // Used when limit switches' identity unknown
 
 volatile uint32_t RIT_count;
 xSemaphoreHandle sbRIT;
@@ -101,20 +101,6 @@ static void prvSetupHardware(void)
 	Board_LED_Set(0, false);
 
 }
-
-//inline void limAssign(DigitalIoPin *ptr) {
-//	// Assigns name of ptr to whichever limit switch is closed
-//		if (lim1pin->read()) {
-//			ptr = lim1pin;
-//		} else if (lim2pin->read()) {
-//			ptr = lim2pin;
-//		} else if (lim3pin->read()) {
-//			ptr = lim3pin;
-//		} else if (lim4pin->read()) {
-//			ptr = lim4pin;
-//		}
-//}
-
 
 void setPen(uint8_t pos) {
 	uint32_t onems = Chip_SCTPWM_GetTicksPerCycle(LPC_SCT0) / 20;
@@ -173,52 +159,24 @@ void processOther(Instruction i) {
 	}
 }
 
-static void execution_task(void *pvParameters) {
-	int counter, temp, step, start, end;
-	bool interchange;
-	int signx;
-	int signy;
-	int xlength_mm = 380; // 500 simulator
-	int ylength_mm = 310; // 500
-	int totalstepsx = 0;
-	int totalstepsy = 0;
+inline void limAssign(DigitalIoPin*& ptr) {
+	// Assigns named pointer to whichever limit switch is closed
+		if (lim1pin->read()) {
+			ptr = lim1pin;
+		} else if (lim2pin->read()) {
+			ptr = lim2pin;
+		} else if (lim3pin->read()) {
+			ptr = lim3pin;
+		} else if (lim4pin->read()) {
+			ptr = lim4pin;
+		}
+}
+
+void doCalibration(int& totalstepsx, int& totalstepsy, int pps) {
 	int margin = 500;
-
-	Instruction i_rcv; // Received MDraw instruction from the queue
-	coord rcv; // Received coordinates from MDraw instruction
-	coord prev; // Previous coordinates received
-	prev.x = 0;
-	prev.y = 0;
-	coord dist; // Distance from prev to rcv
-	coord mid; // Changing midpoints used by algorithm
-	coord drawdist; // Small distance to draw during each iteration of algorithm
-	int d = 0; // Used by algorithm
-	int pps = 2000;
-
-	vTaskDelay((TickType_t) 100); // 100ms delay to wait for laser to power down
-
-	// LIMIT SWITCH DETECTION
-
-	configASSERT(lim1pin != NULL);
-	configASSERT(lim2pin != NULL);
-	configASSERT(lim3pin != NULL);
-	configASSERT(lim4pin != NULL);
-	configASSERT(xdirpin != NULL);
-	configASSERT(ydirpin != NULL);
-	configASSERT(xsteppin != NULL);
-	configASSERT(ysteppin != NULL);
-	configASSERT(penPin != NULL);
-	configASSERT(laserpin != NULL);
-	configASSERT(iQueue != NULL);
-
-	setPen(160);
-
-	// Check for any closed limit switches. Program should not continue in that case,
-	// because limit switches could be misidentified.
-	while (lim1pin->read() || lim2pin->read() || lim3pin->read() || lim4pin->read()) {
-		USB_send( (uint8_t *) "Error! Limit switches must be open to begin!\n", 45);
-		vTaskDelay((TickType_t) 1000); // 1s delay
-	}
+	motorcalibrating = true;
+	totalstepsx = 0;
+	totalstepsy = 0;
 
 	// Set direction to clockwise for both motors
 	xdirpin->write(0);
@@ -226,27 +184,17 @@ static void execution_task(void *pvParameters) {
 	ydirpin->write(0);
 	ydir_cw = true;
 
-	// For each motor, go enough steps to ensure max limit switch will be found, then assign the max pointer to the switch.
-	// Reverse direction and repeat.
+	// For each motor, step until max limit switch is found, then assign the max pointer to the switch.
+	// Reverse direction and repeat for min pointer.
 	runxaxis = true;
 
 	uint32_t remaining = 0;
 
 	////// X MAX
 
-	while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0) {}
+	while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0) {} // Steps * 2 to account for high and low pulse.
 
-	// Steps * 2 to account for high and low pulse.
-	//limAssign(xmax);
-	if (lim1pin->read()) {
-		xmax = lim1pin;
-	} else if (lim2pin->read()) {
-		xmax = lim2pin;
-	} else if (lim3pin->read()) {
-		xmax = lim3pin;
-	} else if (lim4pin->read()) {
-		xmax = lim4pin;
-	}
+	limAssign(xmax);
 
 	////// X MIN
 
@@ -262,16 +210,7 @@ static void execution_task(void *pvParameters) {
 		totalstepsx += 4000 - remaining / 2;
 	} while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0);
 
-	// limAssign(xmin);
-	if (lim1pin->read()) {
-		xmin = lim1pin;
-	} else if (lim2pin->read()) {
-		xmin = lim2pin;
-	} else if (lim3pin->read()) {
-		xmin = lim3pin;
-	} else if (lim4pin->read()) {
-		xmin = lim4pin;
-	}
+	limAssign(xmin);
 
 	xdirpin->write(0);
 	xdir_cw = true;
@@ -285,16 +224,7 @@ static void execution_task(void *pvParameters) {
 	runxaxis = false;
 	while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0) {}
 
-	//limAssign(ymax);
-	if (lim1pin->read()) {
-		ymax = lim1pin;
-	} else if (lim2pin->read()) {
-		ymax = lim2pin;
-	} else if (lim3pin->read()) {
-		ymax = lim3pin;
-	} else if (lim4pin->read()) {
-		ymax = lim4pin;
-	}
+	limAssign(ymax);
 
 	////// Y MIN
 
@@ -310,27 +240,12 @@ static void execution_task(void *pvParameters) {
 		totalstepsy += 4000 - remaining / 2;
 	} while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0);
 
-	//	limAssign(ymin);
-	if (lim1pin->read()) {
-		ymin = lim1pin;
-	} else if (lim2pin->read()) {
-		ymin = lim2pin;
-	} else if (lim3pin->read()) {
-		ymin = lim3pin;
-	} else if (lim4pin->read()) {
-		ymin = lim4pin;
-	}
+	limAssign(ymin);
 
 	configASSERT(ymin != NULL);
 	configASSERT(ymax != NULL);
 	configASSERT(xmin != NULL);
 	configASSERT(xmax != NULL);
-
-	// Return to origin
-	xdirpin->write(1);
-	xdir_cw = false;
-
-	// TESTING
 
 	ydirpin->write(0);
 	ydir_cw = true;
@@ -339,14 +254,61 @@ static void execution_task(void *pvParameters) {
 	overridebool = false;
 
 	totalstepsx -= margin * 2;
-	totalstepy -= margin * 2;
+	totalstepsy -= margin * 2;
 
 	motorcalibrating = false;
+}
+
+static void execution_task(void *pvParameters) {
+	int counter, temp, step, start, end;
+	bool interchange;
+	int signx;
+	int signy;
+	int xlength_mm = 380; // 500 simulator
+	int ylength_mm = 310; // 500
+	int totalstepsx = 0;
+	int totalstepsy = 0;
+
+	Instruction i_rcv; // Received MDraw instruction from the queue
+	coord rcv; // Received coordinates from MDraw instruction
+	coord prev; // Previous coordinates received
+	prev.x = 0;
+	prev.y = 0;
+	coord dist; // Distance from prev to rcv
+	coord mid; // Changing midpoints used by algorithm
+	coord drawdist; // Small distance to draw during each iteration of algorithm
+	int d = 0; // Used by algorithm
+	int pps = 2000;
+
+	vTaskDelay((TickType_t) 100); // 100ms delay to wait for laser to power down
+
+	configASSERT(lim1pin != NULL);
+	configASSERT(lim2pin != NULL);
+	configASSERT(lim3pin != NULL);
+	configASSERT(lim4pin != NULL);
+	configASSERT(xdirpin != NULL);
+	configASSERT(ydirpin != NULL);
+	configASSERT(xsteppin != NULL);
+	configASSERT(ysteppin != NULL);
+	configASSERT(penPin != NULL);
+	configASSERT(laserpin != NULL);
+	configASSERT(iQueue != NULL);
+
+	// setPen(255);
+
+	// Check for any closed limit switches. Program should not continue in that case,
+	// because limit switches could be misidentified.
+	while (lim1pin->read() || lim2pin->read() || lim3pin->read() || lim4pin->read()) {
+		USB_send( (uint8_t *) "Error! Limit switches must be open to begin!\n", 45);
+		vTaskDelay((TickType_t) 1000); // 1s delay
+	}
 
 	while (1) {
 		// Receive next instruction from queue
 		if (xQueueReceive(iQueue, &i_rcv, portMAX_DELAY) == pdPASS) {
-			if (i_rcv.type == InstructionType::REPORT_STATUS) {
+			if (i_rcv.type == InstructionType::CALIBRATE) {
+				doCalibration(totalstepsx, totalstepsy, pps);
+			} else if (i_rcv.type == InstructionType::REPORT_STATUS) {
 				processStatus(xlength_mm, ylength_mm);
 			} else if (i_rcv.type == InstructionType::MOVE || i_rcv.type == InstructionType::MOVE_TO_ORIGIN) {
 				rcv = processMove(i_rcv);
