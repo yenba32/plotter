@@ -3,3 +3,5 @@ parser/test1
 workspace/*/Debug
 workspace/.metadata
 workspace/FreeRTOS_TAD_logs
+.cproject
+*.launch
