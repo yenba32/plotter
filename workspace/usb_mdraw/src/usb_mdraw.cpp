@@ -182,6 +182,7 @@ static void execution_task(void *pvParameters) {
 	int ylength_mm = 310; // 500
 	int totalstepsx = 0;
 	int totalstepsy = 0;
+	int margin = 500;
 
 	Instruction i_rcv; // Received MDraw instruction from the queue
 	coord rcv; // Received coordinates from MDraw instruction
@@ -253,7 +254,7 @@ static void execution_task(void *pvParameters) {
 	xdir_cw = false;
 
 	overridebool = true; // Temporarily override the switch stopping the motor
-	RIT_start(500 * 2, 500000 / pps);
+	RIT_start(margin * 2, 500000 / pps);
 	totalstepsx += 500;
 	overridebool = false;
 
@@ -276,7 +277,7 @@ static void execution_task(void *pvParameters) {
 	xdir_cw = true;
 
 	overridebool = true; // Temporarily override the switch stopping the motor
-	RIT_start(500 * 2, 500000 / pps);
+	RIT_start(margin * 2, 500000 / pps);
 	overridebool = false;
 
 	////// Y MAX
@@ -301,7 +302,7 @@ static void execution_task(void *pvParameters) {
 	ydir_cw = false;
 
 	overridebool = true; // Temporarily override the switch stopping the motor
-	RIT_start(500 * 2, 500000 / pps);
+	RIT_start(margin * 2, 500000 / pps);
 	totalstepsy += 500;
 	overridebool = false;
 
@@ -330,16 +331,15 @@ static void execution_task(void *pvParameters) {
 	xdir_cw = false;
 
 	// TESTING
+
 	ydirpin->write(0);
 	ydir_cw = true;
 	overridebool = true;
-	RIT_start(500 * 2, 500000 / pps);
+	RIT_start(margin * 2, 500000 / pps);
 	overridebool = false;
 
-//	runxaxis = true;
-//	overridebool = true;
-//	RIT_start(500 * 2, 500000 / pps);
-//	overridebool = false;
+	totalstepsx -= margin * 2;
+	totalstepy -= margin * 2;
 
 	motorcalibrating = false;
 
