@@ -216,6 +216,7 @@ static void execution_task(void *pvParameters) {
 	// because limit switches could be misidentified.
 	while (lim1pin->read() || lim2pin->read() || lim3pin->read() || lim4pin->read()) {
 		USB_send( (uint8_t *) "Error! Limit switches must be open to begin!\n", 45);
+		vTaskDelay((TickType_t) 1000); // 1s delay
 	}
 
 	// Set direction to clockwise for both motors
