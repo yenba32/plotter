@@ -106,7 +106,7 @@ void setPen(uint8_t pos) {
 	uint32_t onems = Chip_SCTPWM_GetTicksPerCycle(LPC_SCT0) / 20;
 	uint32_t dutyCycle = (pos * onems / 255) + onems;
 	Chip_SCTPWM_SetDutyCycle(LPC_SCT0, PEN_PWM_INDEX, dutyCycle);
-	//vTaskDelay((TickType_t) 50); // 50ms delay
+	vTaskDelay((TickType_t) 100); // 100ms delay
 }
 
 coord processMove(Instruction i) {
@@ -173,6 +173,11 @@ inline void limAssign(DigitalIoPin*& ptr) {
 }
 
 void doCalibration(int& totalstepsx, int& totalstepsy, int pps) {
+	// Initialize named limit switch pointers as NULL to make sure we assign them based on calibration.
+	xmax = NULL;
+	ymax = NULL;
+	xmin = NULL;
+	ymin = NULL;
 	int margin = 500;
 	motorcalibrating = true;
 	totalstepsx = 0;
@@ -194,7 +199,9 @@ void doCalibration(int& totalstepsx, int& totalstepsy, int pps) {
 
 	while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0) {} // Steps * 2 to account for high and low pulse.
 
-	limAssign(xmax);
+	while (xmax == NULL) {
+		limAssign(xmax);
+	}
 
 	////// X MIN
 
@@ -210,7 +217,9 @@ void doCalibration(int& totalstepsx, int& totalstepsy, int pps) {
 		totalstepsx += 4000 - remaining / 2;
 	} while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0);
 
-	limAssign(xmin);
+	while (xmin == NULL) {
+		limAssign(xmin);
+	}
 
 	xdirpin->write(0);
 	xdir_cw = true;
@@ -224,7 +233,9 @@ void doCalibration(int& totalstepsx, int& totalstepsy, int pps) {
 	runxaxis = false;
 	while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0) {}
 
-	limAssign(ymax);
+	while (ymax == NULL) {
+		limAssign(ymax);
+	}
 
 	////// Y MIN
 
@@ -240,7 +251,9 @@ void doCalibration(int& totalstepsx, int& totalstepsy, int pps) {
 		totalstepsy += 4000 - remaining / 2;
 	} while ((remaining = RIT_start(4000 * 2, 500000 / pps)) == 0);
 
-	limAssign(ymin);
+	while (ymin == NULL) {
+		limAssign(ymin);
+	}
 
 	configASSERT(ymin != NULL);
 	configASSERT(ymax != NULL);
@@ -264,8 +277,8 @@ static void execution_task(void *pvParameters) {
 	bool interchange;
 	int signx;
 	int signy;
-	int xlength_mm = 380; // 500 simulator
-	int ylength_mm = 310; // 500
+	int xlength_mm = 315; // 500 simulator
+	int ylength_mm = 350; // 500
 	int totalstepsx = 0;
 	int totalstepsy = 0;
 
@@ -581,11 +594,11 @@ int main(void) {
 	//	lim1pin = new DigitalIoPin (0, 28, true, true, true); // Limit switch 1
 	//	lim2pin = new DigitalIoPin (0, 27, true, true, true); // Limit switch 2
 
-	xdirpin = new DigitalIoPin (0, 28, false, false, false); // CCW 1, CW 0
-	xsteppin = new DigitalIoPin (0, 27, false, false, false); // Step pin
+	ydirpin = new DigitalIoPin (0, 28, false, false, true); // CCW 1, CW 0
+	ysteppin = new DigitalIoPin (0, 27, false, false, false); // Step pin
 
-	ydirpin = new DigitalIoPin (1, 0, false, false, false); // CCW 1, CW 0
-	ysteppin = new DigitalIoPin (0, 24, false, false, false); // Step pin
+	xdirpin = new DigitalIoPin (1, 0, false, false, true); // CCW 1, CW 0
+	xsteppin = new DigitalIoPin (0, 24, false, false, false); // Step pin
 
 	penPin = new DigitalIoPin(0, 10, false, false, false);
 
