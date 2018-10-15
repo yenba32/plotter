@@ -1,52 +1,79 @@
 #include "instruction.h"
 
+#include "stdio.h"
+
 using namespace std;
 
-Instruction parseG1(const string line);
+int parseM2(const string line, Instruction *out);
+int parseG1(const string line, Instruction *out);
 
-Instruction Instruction::parse(const string line) {
+int Instruction::parse(const string line, Instruction* out) {
 	static const string G28("G28");
-	static const string M10("M10");
 	static const string G1("G1");
-	static const string M1("M1");
-	static const string M4("M4");
+
+	static const string M10("M10");
 	static const string M11("M11");
+	static const string M1("M1");
+	static const string M2("M2");
+	static const string M4("M4");
 	static const string M28("M28");
 
 	if (line.compare(0, M28.size(), M28) == 0) {
-		return Instruction(InstructionType::CALIBRATE);
+		*out = Instruction(InstructionType::CALIBRATE);
+		return 0;
 	}
 
 	if (line.compare(0, G28.size(), G28) == 0) {
-		return Instruction(InstructionType::MOVE_TO_ORIGIN);
+		*out = Instruction(InstructionType::MOVE_TO_ORIGIN);
+		return 0;
 	}
 
 	if (line.compare(0, M11.size(), M11) == 0) {
-		return Instruction(InstructionType::LIMIT_QUERY);
+		*out = Instruction(InstructionType::LIMIT_QUERY);
+		return 0;
 	}
 
 	if (line.compare(0, G1.size(), G1) == 0) {
-		return parseG1(line.substr(G1.size()));
+		return parseG1(line, out);
 	}
 
 	if (line.compare(0, M10.size(), M10) == 0) {
-		return Instruction(InstructionType::REPORT_STATUS);
+		*out = Instruction(InstructionType::REPORT_STATUS);
+		return 0;
+	}
+
+	if (line.compare(0, M2.size(), M2) == 0) {
+		return parseM2(line, out);
 	}
 
 	if (line.compare(0, M1.size(), M1) == 0) {
 		string penParam = line.substr(2);
-		return Instruction(InstructionType::SET_PEN, stoi(penParam));
+		*out = Instruction(InstructionType::SET_PEN, stoi(penParam));
+		return 0;
 	}
 
 	if (line.compare(0, M4.size(), M4) == 0) {
 		string laserParam = line.substr(2);
-		return Instruction(InstructionType::SET_LASER, stoi(laserParam));
+		*out = Instruction(InstructionType::SET_LASER, stoi(laserParam));
+		return 0;
 	}
 
-	//throw "Unknown command";
+	return -1;
 }
 
-Instruction parseG1(const string line) {
+int parseM2(const string line, Instruction *out) {
+	int up = 0;
+	int down = 0;
+	int result = sscanf(line.c_str(), "M2 U%d D%d", &up, &down);
+
+	if (result != 2) return -1;
+
+	*out = Instruction(InstructionType::SET_PEN_RANGE, up, down);
+	return 0;
+}
+
+
+int parseG1(const string line, Instruction *out) {
 	string currentParam;
 	int phase = 0;
 	int xPos = 0;
@@ -95,5 +122,6 @@ Instruction parseG1(const string line) {
 		}
 	}
 
-	return Instruction(InstructionType::MOVE, xPos, yPos);
+	*out = Instruction(InstructionType::MOVE, xPos, yPos);
+	return 0;
 }
