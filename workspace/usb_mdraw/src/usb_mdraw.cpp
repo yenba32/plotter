@@ -444,7 +444,7 @@ static void USB_task(void *pvParameters) {
 	std::string line;
 	Instruction i;
 	static uint8_t *errorLineTooLong = (uint8_t *) "Line too long!\r\n";
-	static uint8_t *errorParse = (uint_t *) "Instruction parsing error!\r\n";
+	static uint8_t *errorParse = (uint8_t *) "Instruction parsing error!\r\n";
 
 	while (1) {
 		char temp[64];
@@ -455,8 +455,8 @@ static void USB_task(void *pvParameters) {
 			line.append(temp);
 
 			if (temp[len - 1] == '\n') {
-				int result = Instruction::parse(line.c_str(), &i);
-				if (result != 0) {
+				int parseResult = Instruction::parse(line.c_str(), &i);
+				if (parseResult != 0) {
 					USB_send(errorParse, sizeof(errorParse));
 					line.clear();
 					continue;
