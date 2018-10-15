@@ -9,15 +9,16 @@ enum class InstructionType {
 	SET_PEN,
 	SET_LASER,
 	LIMIT_QUERY,
+	SET_PEN_RANGE,
 	UNKNOWN
 };
 
 class Instruction {
 public:
-	static Instruction parse(const std::string inputstr);
+	static int parse(const std::string inputstr, Instruction *out);
 	Instruction(InstructionType type = InstructionType::UNKNOWN, int param1 = 0, int param2 = 0): type(type), param1(param1), param2(param2) {};
 
-	const InstructionType type;
-	const int param1;
-	const int param2;
+	InstructionType type;
+	int param1;
+	int param2;
 };

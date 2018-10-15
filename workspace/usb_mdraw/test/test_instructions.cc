@@ -12,32 +12,48 @@ using namespace std;
 #define RUN_TEST(func) do { std::cout << #func; func(); std::cout << "\tOK" << endl; } while(false);
 
 void testParseG1() {
-	Instruction i = Instruction::parse("G1 X-12.00 Y12.00 A0");
+	Instruction i;
+
+	assert(Instruction::parse("G1 X-12.00 Y12.00 A0", &i) == 0);
+
 	assert(i.type == InstructionType::MOVE);
 	assert(i.param1 == -1200);
 	assert(i.param2 == 1200);
 }
 
 void testParseG28() {
-	Instruction i = Instruction::parse("G28");
+	Instruction i;
 
+	assert(Instruction::parse("G28", &i) == 0);
 	assert(i.type == InstructionType::MOVE_TO_ORIGIN);
 }
 
 void testParseM10() {
-	Instruction i = Instruction::parse("M10");
+	Instruction i;
+	assert(Instruction::parse("M10", &i) == 0);
 	assert(i.type == InstructionType::REPORT_STATUS);
 }
 
 void testParseM1() {
-	Instruction i = Instruction::parse("M1 160");
+	Instruction i;
+	assert(Instruction::parse("M1 160", &i) == 0);
 	assert(i.type == InstructionType::SET_PEN);
 	assert(i.param1 == 160);
 }
 
+void testParseM2() {
+	Instruction i;
+
+	assert(Instruction::parse("M2 U160 D90", &i) == 0);
+	assert(i.type == InstructionType::SET_PEN_RANGE);
+	assert(i.param1 == 160);
+	assert(i.param2 == 90);
+}
+
 void testParseM4() {
 	// TODO: what if param1 > 255 or param1 < 0?
-	Instruction i = Instruction::parse("M4 255");
+	Instruction i;
+	assert(Instruction::parse("M4 255", &i) == 0);
 	assert(i.type == InstructionType::SET_LASER);
 	assert(i.param1 == 255);
 }
@@ -52,7 +68,9 @@ void assertParseWholeFile(string filepath) {
 	std::stringstream buffer;
 
 	while(getline(myfile, line)) {
-		Instruction newInstr = Instruction::parse(line);
+		Instruction newInstr;
+
+		Instruction::parse(line, &newInstr);
 		buffer << setprecision(2) << fixed;
 
 		switch (newInstr.type) {
@@ -97,6 +115,7 @@ int main() {
 	RUN_TEST(testParseG1);
 	RUN_TEST(testParseG28);
 	RUN_TEST(testParseM1);
+	RUN_TEST(testParseM2);
 	RUN_TEST(testParseM10);
 	RUN_TEST(testParseM4);
 	RUN_TEST(testParseWholeFile);

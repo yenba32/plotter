@@ -68,6 +68,10 @@ int parseM2(const string line, Instruction *out) {
 	return 0;
 }
 
+
+int parseG1(const string line, Instruction *out) {
+	string currentParam;
+	int phase = 0;
 	int xPos = 0;
 	int yPos = 0;
 
@@ -114,5 +118,6 @@ int parseM2(const string line, Instruction *out) {
 		}
 	}
 
-	return Instruction(InstructionType::MOVE, xPos, yPos);
+	*out = Instruction(InstructionType::MOVE, xPos, yPos);
+	return 0;
 }
