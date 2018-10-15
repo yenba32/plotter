@@ -128,14 +128,16 @@ coord processMove(Instruction i) {
 	return rcv;
 }
 
-void processStatus(int xlength_mm, int ylength_mm) {
+void processStatus(int xlength_mm, int ylength_mm, int speedPercent, int penUpValue, int penDownValue) {
 	int xdim = xlength_mm;
 	int ydim = ylength_mm;
 	char statusstr[60];
 	uint32_t len;
 
 	// Send status string to MDraw with dimensions
-	len = sprintf(statusstr, "M10 XY %d %d 0.00 0.00 A0 B0 H0 S80 U160 D65\n", xdim, ydim);
+	len = sprintf(statusstr,
+			"M10 XY %d %d 0.00 0.00 A0 B0 H0 S%d U%d D%d\n",
+			xdim, ydim, speedPercent, penUpValue, penDownValue);
 	USB_send( (uint8_t *) statusstr, len);
 }
 
@@ -281,6 +283,9 @@ static void execution_task(void *pvParameters) {
 	int ylength_mm = 350; // 500
 	int totalstepsx = 0;
 	int totalstepsy = 0;
+	int speedPercent = 0;
+	int penUpValue = 0;
+	int penDownValue = 0;
 
 	Instruction i_rcv; // Received MDraw instruction from the queue
 	coord rcv; // Received coordinates from MDraw instruction
@@ -322,7 +327,10 @@ static void execution_task(void *pvParameters) {
 			if (i_rcv.type == InstructionType::CALIBRATE) {
 				doCalibration(totalstepsx, totalstepsy, pps);
 			} else if (i_rcv.type == InstructionType::REPORT_STATUS) {
-				processStatus(xlength_mm, ylength_mm);
+				processStatus(xlength_mm, ylength_mm, speedPercent, penUpValue, penDownValue);
+			} else if (i_rcv.type == InstructionType::SET_PEN_RANGE) {
+				penUpValue = i_rcv.param1;
+				penDownValue = i_rcv.param2;
 			} else if (i_rcv.type == InstructionType::MOVE || i_rcv.type == InstructionType::MOVE_TO_ORIGIN) {
 				rcv = processMove(i_rcv);
 				// Convert coordinates from mm to steps
