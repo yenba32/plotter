@@ -15,9 +15,13 @@ int Instruction::parse(const string line, Instruction* out) {
 	static const string M11("M11");
 	static const string M1("M1");
 	static const string M2("M2");
-	static const string M4("M4");
+	static const string M4("M4")
+	static const string M28("M28");
 
-	Instruction i(InstructionType::MOVE_TO_ORIGIN);
+	if (line.compare(0, M28.size(), M28) == 0) {
+		*out = Instruction(InstructionType::CALIBRATE);
+		return 0;
+	}
 
 	if (line.compare(0, G28.size(), G28) == 0) {
 		*out = Instruction(InstructionType::MOVE_TO_ORIGIN);

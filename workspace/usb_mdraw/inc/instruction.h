@@ -10,6 +10,7 @@ enum class InstructionType {
 	SET_LASER,
 	LIMIT_QUERY,
 	SET_PEN_RANGE,
+	CALIBRATE,
 	UNKNOWN
 };
 
