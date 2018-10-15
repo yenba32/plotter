@@ -152,7 +152,7 @@ void processOther(Instruction i) {
 
 	// Reply to MDraw
 	if (i.type == InstructionType::LIMIT_QUERY) {
-		len = sprintf(limitstr, "M11 %d %d %d %d\n", ymax->read(), ymin->read(), xmax->read(), xmin->read());
+		len = sprintf(limitstr, "M11 %d %d %d %d\r\nOK\r\n", lim4pin->read(), lim3pin->read(), lim2pin->read(), lim1pin->read());
 		USB_send( (uint8_t *) limitstr, len);
 	} else {
 		USB_send( (uint8_t *) okstr, 3);
