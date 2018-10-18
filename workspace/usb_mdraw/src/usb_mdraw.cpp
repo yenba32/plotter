@@ -296,7 +296,7 @@ static void execution_task(void *pvParameters) {
 	coord mid; // Changing midpoints used by algorithm
 	coord drawdist; // Small distance to draw during each iteration of algorithm
 	int d = 0; // Used by algorithm
-	int pps = 4000;
+	int pps = 2000;
 
 	vTaskDelay((TickType_t) 100); // 100ms delay to wait for laser to power down
 
