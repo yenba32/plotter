@@ -279,11 +279,11 @@ static void execution_task(void *pvParameters) {
 	bool interchange;
 	int signx;
 	int signy;
-	int xlength_mm = 315; // 500 simulator
-	int ylength_mm = 350; // 500
+	int xlength_mm = 310; // 500 simulator
+	int ylength_mm = 360; // 500
 	int totalstepsx = 0;
 	int totalstepsy = 0;
-	int speedPercent = 0;
+	int speedPercent = 10;
 	int penUpValue = 0;
 	int penDownValue = 0;
 
@@ -296,7 +296,7 @@ static void execution_task(void *pvParameters) {
 	coord mid; // Changing midpoints used by algorithm
 	coord drawdist; // Small distance to draw during each iteration of algorithm
 	int d = 0; // Used by algorithm
-	int pps = 2000;
+	int pps = 4000;
 
 	vTaskDelay((TickType_t) 100); // 100ms delay to wait for laser to power down
 
@@ -514,7 +514,7 @@ void RIT_IRQHandler(void)
 			// Give semaphore and set context switch flag if a higher priority task was woken up
 			xSemaphoreGiveFromISR(sbRIT, &xHigherPriorityWoken);
 		}
-	} else {
+	} else if (!hitting) { // After calibration, hitting any limit switch will end the drawing and require a restart.
 		if (RIT_count > 0) {
 			RIT_count--;
 
