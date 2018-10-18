@@ -88,7 +88,7 @@ int parseM5(const string line, Instruction *out) {
 	int result = sscanf(
 			line.c_str(),
 			"M5 A%d B%d H%d W%d S%d",
-			&xdir, &ydir, &height, &width, &speedPercent);
+			&xdir, &ydir, &width, &height, &speedPercent);
 
 	*out = Instruction(InstructionType::SAVE_DIR_AREA_SPEED, xdir, ydir, height, width, speedPercent);
 	return 0;
