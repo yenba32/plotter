@@ -68,7 +68,14 @@ QueueHandle_t iQueue;
 coord getDistance(coord from, coord to);
 uint32_t RIT_start(uint32_t count, uint32_t us);
 
-// TODO: insert other definitions and declarations here
+
+DigitalIoPin* newYDirPin(bool inverted) {
+	return new DigitalIoPin (0, 28, false, false, inverted);
+}
+
+DigitalIoPin* newXDirPin(bool inverted) {
+	return new DigitalIoPin (1, 0, false, false, inverted);
+}
 
 /* the following is required if runtime statistics are to be collected */
 extern "C" {
@@ -283,7 +290,7 @@ static void execution_task(void *pvParameters) {
 	int ylength_mm = 360; // 500
 	int totalstepsx = 0;
 	int totalstepsy = 0;
-	int speedPercent = 10;
+	int speedPercent = 80;
 	int penUpValue = 0;
 	int penDownValue = 0;
 
@@ -296,8 +303,8 @@ static void execution_task(void *pvParameters) {
 	coord mid; // Changing midpoints used by algorithm
 	coord drawdist; // Small distance to draw during each iteration of algorithm
 	int d = 0; // Used by algorithm
-	int pps = 2000;
-
+	int maxPps = 3500;
+	int pps = maxPps * speedPercent / 100;
 	vTaskDelay((TickType_t) 100); // 100ms delay to wait for laser to power down
 
 	configASSERT(lim1pin != NULL);
@@ -331,6 +338,16 @@ static void execution_task(void *pvParameters) {
 			} else if (i_rcv.type == InstructionType::SET_PEN_RANGE) {
 				penUpValue = i_rcv.param1;
 				penDownValue = i_rcv.param2;
+			} else if (i_rcv.type == InstructionType::SAVE_DIR_AREA_SPEED) {
+				delete xdirpin;
+				delete ydirpin;
+
+				xdirpin = newXDirPin(!i_rcv.param1);
+				ydirpin = newYDirPin(!i_rcv.param2);
+				xlength_mm = i_rcv.param3;
+				ylength_mm = i_rcv.param4;
+				speedPercent = i_rcv.param5;
+				pps = maxPps * speedPercent / 100;
 			} else if (i_rcv.type == InstructionType::MOVE || i_rcv.type == InstructionType::MOVE_TO_ORIGIN) {
 				rcv = processMove(i_rcv);
 				// Convert coordinates from mm to steps
@@ -602,10 +619,10 @@ int main(void) {
 	//	lim1pin = new DigitalIoPin (0, 28, true, true, true); // Limit switch 1
 	//	lim2pin = new DigitalIoPin (0, 27, true, true, true); // Limit switch 2
 
-	ydirpin = new DigitalIoPin (0, 28, false, false, true); // CCW 1, CW 0
+	ydirpin = newYDirPin(true); // CCW 1, CW 0
 	ysteppin = new DigitalIoPin (0, 27, false, false, false); // Step pin
 
-	xdirpin = new DigitalIoPin (1, 0, false, false, true); // CCW 1, CW 0
+	xdirpin = newXDirPin(true); // CCW 1, CW 0
 	xsteppin = new DigitalIoPin (0, 24, false, false, false); // Step pin
 
 	penPin = new DigitalIoPin(0, 10, false, false, false);
