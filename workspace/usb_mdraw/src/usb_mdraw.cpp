@@ -161,7 +161,7 @@ void processOther(Instruction i) {
 
 	// Reply to MDraw
 	if (i.type == InstructionType::LIMIT_QUERY) {
-		len = sprintf(limitstr, "M11 %d %d %d %d\n", ymax->read(), ymin->read(), xmax->read(), xmin->read());
+		len = sprintf(limitstr, "M11 %d %d %d %d\r\nOK\r\n", lim4pin->read(), lim3pin->read(), lim2pin->read(), lim1pin->read());
 		USB_send( (uint8_t *) limitstr, len);
 	} else {
 		USB_send( (uint8_t *) okstr, 3);
@@ -286,8 +286,8 @@ static void execution_task(void *pvParameters) {
 	bool interchange;
 	int signx;
 	int signy;
-	int xlength_mm = 315; // 500 simulator
-	int ylength_mm = 350; // 500
+	int xlength_mm = 310; // 500 simulator
+	int ylength_mm = 360; // 500
 	int totalstepsx = 0;
 	int totalstepsy = 0;
 	int speedPercent = 80;
@@ -532,7 +532,7 @@ void RIT_IRQHandler(void)
 			// Give semaphore and set context switch flag if a higher priority task was woken up
 			xSemaphoreGiveFromISR(sbRIT, &xHigherPriorityWoken);
 		}
-	} else {
+	} else if (!hitting) { // After calibration, hitting any limit switch will end the drawing and require a restart.
 		if (RIT_count > 0) {
 			RIT_count--;
 
