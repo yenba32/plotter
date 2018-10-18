@@ -6,6 +6,7 @@ using namespace std;
 
 int parseM2(const string line, Instruction *out);
 int parseG1(const string line, Instruction *out);
+int parseM5(const string line, Instruction *out);
 
 int Instruction::parse(const string line, Instruction* out) {
 	static const string G28("G28");
@@ -16,6 +17,7 @@ int Instruction::parse(const string line, Instruction* out) {
 	static const string M1("M1");
 	static const string M2("M2");
 	static const string M4("M4");
+	static const string M5("M5");
 	static const string M28("M28");
 
 	if (line.compare(0, M28.size(), M28) == 0) {
@@ -46,6 +48,10 @@ int Instruction::parse(const string line, Instruction* out) {
 		return parseM2(line, out);
 	}
 
+	if (line.compare(0, M5.size(), M5) == 0) {
+		return parseM5(line, out);
+	}
+
 	if (line.compare(0, M1.size(), M1) == 0) {
 		string penParam = line.substr(2);
 		*out = Instruction(InstructionType::SET_PEN, stoi(penParam));
@@ -69,6 +75,22 @@ int parseM2(const string line, Instruction *out) {
 	if (result != 2) return -1;
 
 	*out = Instruction(InstructionType::SET_PEN_RANGE, up, down);
+	return 0;
+}
+
+int parseM5(const string line, Instruction *out) {
+	int xdir = 0;
+	int ydir = 0;
+	int height = 0;
+	int width = 0;
+	int speedPercent = 0;
+
+	int result = sscanf(
+			line.c_str(),
+			"M5 A%d B%d H%d W%d S%d",
+			&xdir, &ydir, &height, &width, &speedPercent);
+
+	*out = Instruction(InstructionType::SAVE_DIR_AREA_SPEED, xdir, ydir, height, width, speedPercent);
 	return 0;
 }
 

@@ -58,6 +58,17 @@ void testParseM4() {
 	assert(i.param1 == 255);
 }
 
+void testParseM5() {
+	Instruction i;
+	assert(Instruction::parse("M5 A0 B1 H300 W123 S80", &i) == 0);
+	assert(i.type == InstructionType::SAVE_DIR_AREA_SPEED);
+	assert(i.param1 == 0);
+	assert(i.param2 == 1);
+	assert(i.param3 == 300);
+	assert(i.param4 == 123);
+	assert(i.param5 == 80);
+}
+
 void assertParseWholeFile(string filepath) {
 	// parse the whole file into memory structs then convert that list into
 	// string again then compare with the original string
