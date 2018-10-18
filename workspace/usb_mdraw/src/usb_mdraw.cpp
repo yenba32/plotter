@@ -135,7 +135,7 @@ coord processMove(Instruction i) {
 	return rcv;
 }
 
-void processStatus(int xlength_mm, int ylength_mm, int speedPercent, int penUpValue, int penDownValue) {
+void processStatus(int xlength_mm, int ylength_mm, int speedPercent, int penUpValue, int penDownValue, bool xinvert, bool yinvert) {
 	int xdim = xlength_mm;
 	int ydim = ylength_mm;
 	char statusstr[60];
@@ -143,8 +143,8 @@ void processStatus(int xlength_mm, int ylength_mm, int speedPercent, int penUpVa
 
 	// Send status string to MDraw with dimensions
 	len = sprintf(statusstr,
-			"M10 XY %d %d 0.00 0.00 A0 B0 H0 S%d U%d D%d\n",
-			xdim, ydim, speedPercent, penUpValue, penDownValue);
+			"M10 XY %d %d 0.00 0.00 A%d B%d H0 S%d U%d D%d\n",
+			xdim, ydim, xinvert, yinvert, speedPercent, penUpValue, penDownValue);
 	USB_send( (uint8_t *) statusstr, len);
 }
 
@@ -284,6 +284,8 @@ void doCalibration(int& totalstepsx, int& totalstepsy, int pps) {
 static void execution_task(void *pvParameters) {
 	int counter, temp, step, start, end;
 	bool interchange;
+	bool xinvert = true;
+	bool yinvert = true;
 	int signx;
 	int signy;
 	int xlength_mm = 310; // 500 simulator
@@ -334,7 +336,7 @@ static void execution_task(void *pvParameters) {
 			if (i_rcv.type == InstructionType::CALIBRATE) {
 				doCalibration(totalstepsx, totalstepsy, pps);
 			} else if (i_rcv.type == InstructionType::REPORT_STATUS) {
-				processStatus(xlength_mm, ylength_mm, speedPercent, penUpValue, penDownValue);
+				processStatus(xlength_mm, ylength_mm, speedPercent, penUpValue, penDownValue, xinvert, yinvert);
 			} else if (i_rcv.type == InstructionType::SET_PEN_RANGE) {
 				penUpValue = i_rcv.param1;
 				penDownValue = i_rcv.param2;
@@ -342,8 +344,10 @@ static void execution_task(void *pvParameters) {
 				delete xdirpin;
 				delete ydirpin;
 
-				xdirpin = newXDirPin(!i_rcv.param1);
-				ydirpin = newYDirPin(!i_rcv.param2);
+				xinvert = !i_rcv.param1;
+				yinvert = !i_rcv.param2;
+				xdirpin = newXDirPin(xinvert);
+				ydirpin = newYDirPin(yinvert);
 				xlength_mm = i_rcv.param3;
 				ylength_mm = i_rcv.param4;
 				speedPercent = i_rcv.param5;
