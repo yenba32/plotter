@@ -31,6 +31,7 @@
 #include "DigitalIoPin.h"
 
 #define PEN_PWM_INDEX 1
+#define LASER_PWM_INDEX 1
 
 struct coord{
 	int x;
@@ -95,6 +96,12 @@ void SCT_Init(void) {
 	Chip_SCTPWM_SetOutPin(LPC_SCT0, PEN_PWM_INDEX, 1);
 	Chip_SWM_MovablePortPinAssign(SWM_SCT0_OUT1_O, 0, 10);
 	Chip_SCTPWM_Start(LPC_SCT0);
+
+	Chip_SCTPWM_Init(LPC_SCT1);
+	Chip_SCTPWM_SetRate(LPC_SCT1, 50);
+	Chip_SCTPWM_SetOutPin(LPC_SCT1, LASER_PWM_INDEX, 1);
+	Chip_SWM_MovablePortPinAssign(SWM_SCT1_OUT1_O, 0, 12);
+	Chip_SCTPWM_Start(LPC_SCT1);
 }
 
 /* Sets up system hardware */
@@ -113,6 +120,13 @@ void setPen(uint8_t pos) {
 	uint32_t onems = Chip_SCTPWM_GetTicksPerCycle(LPC_SCT0) / 20;
 	uint32_t dutyCycle = (pos * onems / 255) + onems;
 	Chip_SCTPWM_SetDutyCycle(LPC_SCT0, PEN_PWM_INDEX, dutyCycle);
+	vTaskDelay((TickType_t) 100); // 100ms delay
+}
+
+void setLaser(uint8_t power) {
+	uint32_t ticks = Chip_SCTPWM_GetTicksPerCycle(LPC_SCT1);
+	uint32_t dutyCycle = (power * ticks / 255);
+	Chip_SCTPWM_SetDutyCycle(LPC_SCT1, LASER_PWM_INDEX, dutyCycle);
 	vTaskDelay((TickType_t) 100); // 100ms delay
 }
 
@@ -156,7 +170,7 @@ void processOther(Instruction i) {
 	if (i.type == InstructionType::SET_PEN) {
 		setPen(i.param1);
 	} else if (i.type == InstructionType::SET_LASER) {
-		// Call laser function
+		setLaser(i.param1);
 	}
 
 	// Reply to MDraw
