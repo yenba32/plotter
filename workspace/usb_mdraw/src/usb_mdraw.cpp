@@ -633,10 +633,6 @@ int main(void) {
 	lim3pin = new DigitalIoPin (0, 9, true, true, true); // Limit switch 3
 	lim4pin = new DigitalIoPin (0, 29, true, true, true); // Limit switch 4
 
-	//	// FOR TESTING WITH SINGLE MOTOR ONLY
-	//	lim1pin = new DigitalIoPin (0, 28, true, true, true); // Limit switch 1
-	//	lim2pin = new DigitalIoPin (0, 27, true, true, true); // Limit switch 2
-
 	ydirpin = newYDirPin(true); // CCW 1, CW 0
 	ysteppin = new DigitalIoPin (0, 27, false, false, false); // Step pin
 
