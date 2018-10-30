@@ -302,8 +302,8 @@ static void execution_task(void *pvParameters) {
 	bool yinvert = true;
 	int signx;
 	int signy;
-	int xlength_mm = 310; // 500 simulator
-	int ylength_mm = 360; // 500
+	int xlength_mm = 310; // Measured value
+	int ylength_mm = 360; // Measured value
 	int totalstepsx = 0;
 	int totalstepsy = 0;
 	int speedPercent = 80;
@@ -318,7 +318,7 @@ static void execution_task(void *pvParameters) {
 	coord dist; // Distance from prev to rcv
 	coord mid; // Changing midpoints used by algorithm
 	coord drawdist; // Small distance to draw during each iteration of algorithm
-	int d = 0; // Used by algorithm
+	int d = 0; // Used by Bresenham algorithm (error)
 	int maxPps = 3500;
 	int pps = maxPps * speedPercent / 100;
 	vTaskDelay((TickType_t) 100); // 100ms delay to wait for laser to power down
@@ -334,8 +334,6 @@ static void execution_task(void *pvParameters) {
 	configASSERT(penPin != NULL);
 	configASSERT(laserpin != NULL);
 	configASSERT(iQueue != NULL);
-
-	// setPen(255);
 
 	// Check for any closed limit switches. Program should not continue in that case,
 	// because limit switches could be misidentified.
@@ -431,8 +429,6 @@ static void execution_task(void *pvParameters) {
 				}
 
 				for (counter = start; counter != end; counter += step) {
-					 // vTaskDelay((TickType_t) 1); // 1ms delay
-					//printf("\rmidpoint: %d, %d\n", mid.x, mid.y);
 
 					//  Draw the distance to mid from prev
 					drawdist = getDistance(prev, mid);
@@ -514,9 +510,6 @@ static void USB_task(void *pvParameters) {
 			USB_send(errorLineTooLong, sizeof(errorLineTooLong));
 			line.clear();
 		}
-
-		// DEBUG PRINT
-		//		printf("\r%s\n", str);
 	}
 }
 
@@ -645,8 +638,6 @@ int main(void) {
 	Chip_RIT_Init(LPC_RITIMER);
 
 	// set the priority level of the interrupt
-	// The level must be equal or lower than the maximum priority specified in FreeRTOS config
-	// Note that in a Cortex-M3 a higher number indicates lower interrupt priority
 	NVIC_SetPriority( RITIMER_IRQn, 5 );
 
 	sbRIT = xSemaphoreCreateBinary();
